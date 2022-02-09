@@ -3,12 +3,7 @@
     <h1>Latest Posts</h1>
     <div class="create-post">
       <label for="create-post">Double click entries to delete </label>
-      <input
-        type="text"
-        id="create-post"
-        v-model="text"
-        placeholder="Create a post"
-      />
+      <input type="text" id="create-post" v-model="text" placeholder="Create a post" />
       <button v-on:click="createPost">Post!</button>
     </div>
     <hr />
@@ -22,9 +17,7 @@
         v-bind:key="post._id"
         v-on:dblclick="deletePost(post._id)"
       >
-        {{
-          `${post.createdAt.getDate()}/${post.createdAt.getMonth()}/${post.createdAt.getFullYear()}`
-        }}
+        {{ `${post.createdAt.getDate()}/${post.createdAt.getMonth()}/${post.createdAt.getFullYear()}` }}
         <p class="text">{{ post.text }}</p>
       </div>
     </div>
@@ -32,14 +25,14 @@
 </template>
 
 <script>
-import PostService from "../PostService";
+import PostService from '../PostService';
 export default {
-  name: "PostComponent",
+  name: 'PostComponent',
   data() {
     return {
       posts: [],
-      error: "",
-      text: "",
+      error: '',
+      text: '',
     };
   },
   async created() {
