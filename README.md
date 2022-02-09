@@ -12,3 +12,9 @@ npm run dev
 cd client
 npm run serve
 ```
+
+### Formats all code
+
+```
+npm run format
+```
