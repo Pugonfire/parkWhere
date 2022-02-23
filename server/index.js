@@ -9,9 +9,11 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const posts = require('./routes/api/posts');
+const ura = require('./routes/api/ura');
 const { sendFile } = require('express/lib/response');
 
 app.use('/api/posts', posts);
+app.use('/api/ura', ura);
 
 // Handle production
 if (process.env.NODE_ENV === 'production') {

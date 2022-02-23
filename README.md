@@ -3,7 +3,7 @@
 ### Starts backend
 
 ```
-npm run dev
+npm run backend
 ```
 
 ### Compiles and hot-reloads for development
