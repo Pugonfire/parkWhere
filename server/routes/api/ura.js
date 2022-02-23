@@ -23,25 +23,20 @@ router.get('/getToken', async (req, res) => {
 // need to get fresh token
 router.get('/getInfo', async (req, res) => {
   console.log(token);
-  //axios;
-  //     .get(
-  //       "https://www.ura.gov.sg/uraDataService/invokeUraDS?service=Car_Park_Details",
-  //       {
-  //         headers: {
-  //           AccessKey: "3df68727-2825-4d0a-aee7-768b467a0815",
-  //           Token:
-  //             "82rdXS3rpd4kT3M8qn687-4P3tg7th4dR72SC7-2d5b6yF@d0690bJ257JCF66bf9-hh4qnB886+pY7-gdB--dHM0m7ak-E9aFdf",
-  //         },
-  //       }
-  //     )
-  //     .then((response) => {
-  //       this.info = response.data;
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       this.errored = true;
-  //     })
-  //     .finally(() => (this.loading = false));
+  axios
+    .get('https://www.ura.gov.sg/uraDataService/invokeUraDS?service=Car_Park_Details', {
+      headers: {
+        AccessKey: '3df68727-2825-4d0a-aee7-768b467a0815',
+        Token: token,
+      },
+    })
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .finally(() => (loading = false));
 });
 
 router.get('/getAvailability', async (req, res) => {
