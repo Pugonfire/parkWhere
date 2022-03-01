@@ -25,6 +25,7 @@ router.get('/getToken', async (req, res) => {
 // need to get fresh token
 router.get('/getInfo', async (req, res) => {
   console.log(token);
+  let status = null;
   axios
     .get('https://www.ura.gov.sg/uraDataService/invokeUraDS?service=Car_Park_Details', {
       headers: {
@@ -33,13 +34,21 @@ router.get('/getInfo', async (req, res) => {
       },
     })
     .then((response) => {
-      console.log(response.data);
+      console.log("Data received");
+      status = response.data.Status;
+      console.log(status);
       results = response.data.Result;
     })
     .catch((error) => {
       console.log(error);
     })
-    .finally();
+    .finally(async () => {
+      if (status == "Success") {
+        console.log("Inserted to DB");
+        const posts = await loadCarparksCollection();
+        await posts.insertMany(results);
+      }}
+    );
 });
 
 router.get('/getAvailability', async (req, res) => {
@@ -58,8 +67,17 @@ router.get('/getAvailability', async (req, res) => {
     });
 });
 
-router.get('/getResults', () => {
-  console.log(results);
-});
+async function loadCarparksCollection() {
+  // replace this
+  const client = await mongodb.MongoClient.connect(
+    'mongodb+srv://max:fizjic-jihwy4-Momqez@cluster0.zpk7p.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+    {
+      useNewUrlParser: true,
+    }
+  );
+
+  // database name here
+  return client.db('Cluster0').collection('carparks');
+}
 
 module.exports = router;
