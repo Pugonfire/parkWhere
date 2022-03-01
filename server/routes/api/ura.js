@@ -34,7 +34,7 @@ router.get('/getInfo', async (req, res) => {
       },
     })
     .then((response) => {
-      console.log("Data received");
+      console.log('Data received');
       status = response.data.Status;
       console.log(status);
       results = response.data.Result;
@@ -43,12 +43,12 @@ router.get('/getInfo', async (req, res) => {
       console.log(error);
     })
     .finally(async () => {
-      if (status == "Success") {
-        console.log("Inserted to DB");
+      if (status == 'Success') {
+        console.log('Inserted to DB');
         const posts = await loadCarparksCollection();
         await posts.insertMany(results);
-      }}
-    );
+      }
+    });
 });
 
 router.get('/getAvailability', async (req, res) => {
