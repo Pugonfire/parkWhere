@@ -1,6 +1,7 @@
 const express = require('express');
 const mongodb = require('mongodb');
 const axios = require('axios');
+const nodeCron = require('node-cron');
 
 const router = express.Router();
 
@@ -34,7 +35,13 @@ router.get('/cpa/:carparkNo', async (req, res) => {
   res.status(200).send();
 });
 
-// To update our DB daily (Carpark Details)
+// CronJob: Carpark Details (run once a day at 0000H)
+// nodeCron.schedule('0 0 * * *', updateCarparkDetails, { timezone: 'Singapore' });
+
+// CronJob: Carpark Availability (run once a day at 0000H)
+// nodeCron.schedule('*/3 * * * *', updateCarparkAvailability, { timezone: 'Singapore' });
+
+// To update Carpark Details
 async function updateCarparkDetails() {
   // To generate the daily token
   //   await URAAPI.getToken();
@@ -48,7 +55,7 @@ async function updateCarparkDetails() {
   });
 }
 
-// To update our DB every 3 mins
+// To update Carpark Availabilities
 async function updateCarparkAvailability() {
   // To generate the daily token
   //   await URAAPI.getToken();
