@@ -17,27 +17,26 @@ class URAAPI {
       .then((response) => {
         console.log(response.data);
         this.#token = response.data.Result;
+      })
+      .catch((error) => {
+        console.log(error);
       });
   }
 
   static async getDetails() {
     if (this.#token == null) return null;
-    let status = null;
-    axios
+    let data = axios
       .get('https://www.ura.gov.sg/uraDataService/invokeUraDS?service=Car_Park_Details', {
         headers: {
           AccessKey: this.#accessKey,
           Token: this.#token,
         },
       })
-      .then((response) => {
-        console.log('Data received');
-        return response;
-      })
+      .then((response) => response)
       .catch((error) => {
         console.log(error);
-        return null;
       });
+    return data;
   }
 
   static async getAvailability() {
