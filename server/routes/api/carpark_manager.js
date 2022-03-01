@@ -57,8 +57,6 @@ async function updateCarparkDetails() {
 
 // To update Carpark Availabilities
 async function updateCarparkAvailability() {
-  // To generate the daily token
-  //   await URAAPI.getToken();
   await URAAPI.getAvailability().then(async (res) => {
     if (res.status == 200) {
       const carpark_availability = await connectDB('carpark_availability');
