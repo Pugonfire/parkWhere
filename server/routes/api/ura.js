@@ -5,7 +5,9 @@ const axios = require('axios');
 
 const router = express.Router();
 
-let token = null;
+// temp token
+let token = '1e8385JKCGed-YdQ8--8H0Xe6a0858ReC54v7-5agNfyad6NZX72Zwa08G-3uaG8d7ea@fK4c3A487u-@@-nyS0sSd-r7@CqM774';
+let results = null;
 
 router.get('/getToken', async (req, res) => {
   axios
@@ -31,12 +33,13 @@ router.get('/getInfo', async (req, res) => {
       },
     })
     .then((response) => {
-      console.log(response);
+      console.log(response.data);
+      results = response.data.Result;
     })
     .catch((error) => {
       console.log(error);
     })
-    .finally(() => (loading = false));
+    .finally();
 });
 
 router.get('/getAvailability', async (req, res) => {
@@ -53,6 +56,10 @@ router.get('/getAvailability', async (req, res) => {
     .catch((error) => {
       console.log(error);
     });
+});
+
+router.get('/getResults', () => {
+  console.log(results);
 });
 
 module.exports = router;
