@@ -3,7 +3,7 @@ const axios = require('axios');
 
 class URAAPI {
   static #accessKey = '3df68727-2825-4d0a-aee7-768b467a0815';
-  // Note: change token
+  // Note: need to dynamically call token
   static #token =
     '1e8385JKCGed-YdQ8--8H0Xe6a0858ReC54v7-5agNfyad6NZX72Zwa08G-3uaG8d7ea@fK4c3A487u-@@-nyS0sSd-r7@CqM774';
 
@@ -40,19 +40,18 @@ class URAAPI {
   }
 
   static async getAvailability() {
-    axios
+    if (this.#token == null) return null;
+    let data = axios
       .get('https://api.data.gov.sg/v1/transport/carpark-availability', {
         headers: {
           accept: 'application/json',
         },
       })
-      .then((response) => {
-        this.availability = response.data.items[0];
-        // get most recent availability
-      })
+      .then((response) => response)
       .catch((error) => {
         console.log(error);
       });
+    return data;
   }
 }
 
