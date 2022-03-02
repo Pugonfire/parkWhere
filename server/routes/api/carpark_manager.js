@@ -46,7 +46,7 @@ async function updateCarparkDetails() {
   // To generate the daily token
   await URAAPI.getToken();
   await URAAPI.getDetails().then(async (res) => {
-    if (res.status != 200) {
+    if (res.status == 200) {
       const carpark_details = await connectDB('carpark_details');
       await carpark_details.deleteMany({});
       await carpark_details.insertMany(res.data.Result);
