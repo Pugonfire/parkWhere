@@ -1,6 +1,8 @@
 import axios from 'axios';
+import SVY21 from './SVY21_to_WGS84';
 
 const url = 'api/carpark_manager/cpd';
+const converter = new SVY21();
 
 class CarparkPinService {
   static getPins() {
@@ -11,7 +13,10 @@ class CarparkPinService {
           const data = res.data;
           resolve(
             data.map((post) => ({
-              geo: post.geometries,
+              coords: converter.computeLatLon(
+                post.geometries[0].coordinates.split(',')[0],
+                post.geometries[0].coordinates.split(',')[1]
+              ),
             }))
           );
         })

@@ -48,7 +48,7 @@ class SVY21 {
       return this.a / Math.sqrt(poly);
     };
 
-    this.computeLatLon = function (N, E) {
+    this.computeLatLon = function (E, N) {
       //	Returns a pair (lat, lon) representing Latitude and Longitude.
       var Nprime = N - this.oN;
       var Mo = this.calcM(this.oLat);
