@@ -1,9 +1,9 @@
 <template>
   <div>
     <h1>Search Carpark</h1>
-    <input type="text" v-model="user_search" />
+    <input type="text" v-model="user_search" v-on:input="searchCarparks" />
     <p>{{ user_search }}</p>
-    <div v-for="carpark in searchCarparks" :item="carpark" :key="carpark.ppCode">
+    <div v-for="carpark in filtered" :item="carpark" :key="carpark._id">
       <CarparkCard :carpark="carpark" />
     </div>
   </div>
@@ -18,12 +18,13 @@ export default {
     return {
       user_search: '',
       carparks: [],
+      filtered: [],
     };
   },
   components: {
     CarparkCard,
   },
-  computed: {
+  methods: {
     searchCarparks() {
       let filtered_carparks = this.carparks;
       if (filtered_carparks) {
@@ -31,8 +32,10 @@ export default {
           carpark.ppName.toLowerCase().includes(this.user_search)
         );
         console.log(filtered_carparks);
-        return filtered_carparks;
-      } else return null;
+        this.filtered = filtered_carparks;
+      }
+      // return filtered_carparks;
+      // } else return null;
     },
   },
   async created() {

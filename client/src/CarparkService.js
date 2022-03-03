@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const details_url = 'api/carpark_manager/cpd/';
+const details_url = 'http://localhost:5000/api/carpark_manager/cpd/';
 
 class CarparkService {
   static getCarparkDetails() {

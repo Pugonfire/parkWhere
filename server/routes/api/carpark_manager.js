@@ -11,28 +11,28 @@ const URAAPI = require('./ura_api.js');
 router.get('/cpd', async (req, res) => {
   const carpark_details = await connectDB('carpark_details');
   res.send(await carpark_details.find({}).toArray());
-  res.status(200).send();
+  // res.status(200).send();
 });
 
 // GET: Specific Carpark Details
 router.get('/cpd/:carparkNo', async (req, res) => {
   const carpark_details = await connectDB('carpark_details');
   res.send(await carpark_details.find({ ppCode: req.params.carparkNo }).toArray());
-  res.status(200).send();
+  // res.status(200).send();
 });
 
 // GET: All Carpark Availability
 router.get('/cpa', async (req, res) => {
   const carpark_availability = await connectDB('carpark_availability');
   res.send(await carpark_availability.find({}).toArray());
-  res.status(200).send();
+  // res.status(200).send();
 });
 
 // GET: Specific Carpark Availability
 router.get('/cpa/:carparkNo', async (req, res) => {
   const carpark_availability = await connectDB('carpark_availability');
   res.send(await carpark_availability.find({ carpark_number: req.params.carparkNo }).toArray());
-  res.status(200).send();
+  // res.status(200).send();
 });
 
 // CronJob: Carpark Details (run once a day at 0000H)
