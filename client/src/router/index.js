@@ -16,8 +16,8 @@ const routes = [
     component: Login,
   },
   {
-    path: '/googlemaps',
-    name: 'Google Maps',
+    path: '/parknow',
+    name: 'ParkNow',
     component: ParkNow,
   },
   {
