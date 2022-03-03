@@ -13,6 +13,8 @@ class CarparkPinService {
           const data = res.data;
           resolve(
             data.map((post) => ({
+              ...post,
+              name: post.ppName,
               coords: converter.computeLatLon(
                 post.geometries[0].coordinates.split(',')[0],
                 post.geometries[0].coordinates.split(',')[1]
