@@ -1,7 +1,8 @@
-import Api from './Api';
+// import Api from './Api';
+import axios from 'axios';
 
 export default {
   search(input) {
-    return Api().post('search', input);
+    return axios.post('http://localhost:5000/api/search_manager/search', input);
   },
 };
