@@ -5,7 +5,7 @@ class URAAPI {
   static #accessKey = '3df68727-2825-4d0a-aee7-768b467a0815';
   // Note: need to dynamically call token
   static #token =
-    'eqN21j8e2fVazRJbsz3+6d3V2Nb82-e4N48BQw78j7sFa+PQ2b0ufqbBf568+65g07euzZaJTQW4MX4-JSSXa+@H6p71MU8d482b';
+    'Ad0x-@5Z+NPGH6a8k69PmdF-7Q7zTge80Y-St0K7A67np5j00VvT2+@a2r@0W-8wnpDmeV8k-avHJnMfQpV0gw72Vy2-dC3XcUuE';
 
   static async getToken() {
     axios
@@ -42,9 +42,10 @@ class URAAPI {
   static async getAvailability() {
     if (this.#token == null) return null;
     let data = axios
-      .get('https://api.data.gov.sg/v1/transport/carpark-availability', {
+      .get('https://www.ura.gov.sg/uraDataService/invokeUraDS?service=Car_Park_Availability', {
         headers: {
-          accept: 'application/json',
+          AccessKey: this.#accessKey,
+          Token: this.#token,
         },
       })
       .then((response) => response)
