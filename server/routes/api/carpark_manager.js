@@ -41,50 +41,96 @@ router.get('/cpa/:carparkNo', async (req, res) => {
 async function updateCarparkDetails() {
   // To generate the daily token
   await URAAPI.getToken();
-  await URAAPI.getDetails().then(async (res) => {
-    if (res.status == 200) {
-      const carpark_details = await connectDB('carpark_details');
-      await carpark_details.deleteMany({});
-      let package = [];
-      res.data.Result.forEach((cp) => {
-        if (cp.vehCat === 'Car') {
-          package.push(cp);
-        }
-      });
-      await carpark_details.insertMany(package);
-      console.log('Carpark Details Updated to DB');
-    } else {
-      await new Promise((resolve) => setTimeout(resolve, 300000));
-      await carpark_details.deleteMany({});
-      let package = [];
-      res.data.Result.forEach((cp) => {
-        if (cp.vehCat === 'Car') {
-          package.push(cp);
-        }
-      });
-      await carpark_details.insertMany(package);
-      console.log('Carpark Details Updated to DB (2nd try)');
+  let res = await URAAPI.getDetails();
+  const carpark_details = await connectDB('carpark_details');
+
+  if (res.data.Status != 'Success') {
+    const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+    await delay(300000);
+    res = await URAAPI.getDetails();
+  }
+
+  if (res.data.Status != 'Success') {
+    console.log('Failed to retrieve Carpark Details');
+    return;
+  }
+
+  let package = massageDetails(res.data.Result);
+  await carpark_details.deleteMany({});
+  await carpark_details.insertMany(package);
+  console.log('Carpark Details Updated to DB');
+}
+
+function massageDetails(data) {
+  let package = [];
+  data.forEach((cp) => {
+    if (cp.vehCat === 'Car') {
+      package.push(cp);
     }
   });
+  package = package.reduce((acc, item) => {
+    if (!acc[item.ppCode]) {
+      acc[item.ppCode] = {
+        ppCode: item.ppCode,
+        ppName: item.ppName,
+        vehCat: item.vehCat,
+        parkingSystem: item.parkingSystem,
+        parkCapacity: item.parkCapacity,
+        geometries: item.geometries,
+        remarks: item.remarks,
+        rates: [],
+      };
+    }
+    let pricing = {
+      startTime: item.startTime,
+      endTime: item.endTime,
+      weekdayMin: item.weekdayMin,
+      weekdayRate: item.weekdayRate,
+      satdayMin: item.satdayMin,
+      satdayRate: item.satdayRate,
+      sunPHMin: item.sunPHMin,
+      sunPHRate: item.sunPHMin,
+    };
+    acc[item.ppCode].rates.push(pricing);
+    return acc;
+  }, {});
+  package = Object.keys(package).map((key) => {
+    return package[key];
+  });
+  return package;
 }
 
 // To update Carpark Availabilities
 async function updateCarparkAvailability() {
-  await URAAPI.getAvailability().then(async (res) => {
-    if (res.status == 200) {
-      const carpark_availability = await connectDB('carpark_availability');
-      await carpark_availability.deleteMany({});
+  let res = await URAAPI.getAvailability();
+  const carpark_details = await connectDB('carpark_details');
+  let package = massageAvailability(res.data.Result);
+  await carpark_details.bulkWrite(package);
+  console.log('Carpark Availability Updated to DB');
+}
 
-      let package = [];
-      res.data.items[0].carpark_data.forEach((cp) => {
-        if (cp.carpark_info[0].lot_type === 'C') {
-          package.push(cp);
-        }
-      });
-      await carpark_availability.insertMany(package);
-      console.log('Carpark Availability Updated to DB');
+function massageAvailability(data) {
+  let package = [];
+  data.forEach((cp) => {
+    if (cp.lotType === 'C') {
+      let operation = {
+        updateOne: {
+          filter: {
+            ppCode: cp.carparkNo,
+          },
+          update: {
+            $set: {
+              lotsAvailable: cp.lotsAvailable,
+              lotType: cp.lotType,
+              updateTime: new Date(),
+            },
+          },
+        },
+      };
+      package.push(operation);
     }
   });
+  return package;
 }
 
 // To connect to MongoDB
