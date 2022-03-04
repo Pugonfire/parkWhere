@@ -45,12 +45,24 @@ async function updateCarparkDetails() {
     if (res.status == 200) {
       const carpark_details = await connectDB('carpark_details');
       await carpark_details.deleteMany({});
-      await carpark_details.insertMany(res.data.Result);
+      let package = [];
+      res.data.Result.forEach((cp) => {
+        if (cp.vehCat === 'Car') {
+          package.push(cp);
+        }
+      });
+      await carpark_details.insertMany(package);
       console.log('Carpark Details Updated to DB');
     } else {
       await new Promise((resolve) => setTimeout(resolve, 300000));
       await carpark_details.deleteMany({});
-      await carpark_details.insertMany(res.data.Result);
+      let package = [];
+      res.data.Result.forEach((cp) => {
+        if (cp.vehCat === 'Car') {
+          package.push(cp);
+        }
+      });
+      await carpark_details.insertMany(package);
       console.log('Carpark Details Updated to DB (2nd try)');
     }
   });
@@ -62,7 +74,14 @@ async function updateCarparkAvailability() {
     if (res.status == 200) {
       const carpark_availability = await connectDB('carpark_availability');
       await carpark_availability.deleteMany({});
-      await carpark_availability.insertMany(res.data.items[0].carpark_data);
+
+      let package = [];
+      res.data.items[0].carpark_data.forEach((cp) => {
+        if (cp.carpark_info[0].lot_type === 'C') {
+          package.push(cp);
+        }
+      });
+      await carpark_availability.insertMany(package);
       console.log('Carpark Availability Updated to DB');
     }
   });

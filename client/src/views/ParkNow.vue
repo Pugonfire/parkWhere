@@ -4,8 +4,12 @@
     <div v-for="index in 2" :key="index">
       {{ pins[index] }}
     </div>
-    <h4>Click on the button to update the map to your locality. (it may take some time to load)</h4>
+    <h4>Click to update the map to your locality. (it may take some time to load)</h4>
     <button @click="getLocation">Get my Location</button>
+    <h4>Drag the map around, click to console log carparks within the current map view.</h4>
+    <button @click="logCurrentCarparks">Console Log Current Carparks</button>
+    <h4>Drag the map around, click to console log carparks with their distances. (requires API key)</h4>
+    <button @click="orderCarparks">Order carparks</button>
     <h4>Map</h4>
     <div id="map" style="width: 100%; height: 600px"></div>
   </div>
@@ -23,26 +27,86 @@ export default {
       map: null,
       mapOptions: {
         center: {
-          lat: 1.3521,
-          lng: 103.8198,
+          // Singapore Central Coords
+          // lat: 1.3521,
+          // lng: 103.8198,
+          lat: 1.33251,
+          lng: 103.95479,
         },
-        zoom: 12,
+        zoom: 16,
       },
       center: {
-        lat: 1.3521,
-        lng: 103.8198,
+        lat: 1.33251,
+        lng: 103.95479,
       },
       pins: [],
+      candidates: [],
+      myMarker: null,
     };
   },
-  async created() {},
   async mounted() {
     await this.loadPins();
     await this.loadMapAPI();
     this.initMap();
     this.initMarkers();
+    // Testing Code for Distance
+    new this.google.maps.Marker({ position: this.center, title: 'Origin', map: this.map });
   },
   methods: {
+    orderCarparks() {
+      this.candidates = [];
+      this.pins.forEach((pin) => {
+        if (this.map.getBounds().contains(pin.coords)) {
+          this.candidates.push(pin);
+        }
+      });
+      this.candidates = [...new Map(this.candidates.map((item) => [item['ppCode'], item])).values()];
+      console.log(this.candidates);
+
+      let dest = [];
+      this.candidates.forEach((cp) => {
+        dest.push(cp.coords);
+      });
+      console.log(dest);
+
+      let service = new this.google.maps.DistanceMatrixService();
+      service.getDistanceMatrix(
+        {
+          origins: [this.center],
+          destinations: dest,
+          travelMode: 'DRIVING',
+        },
+        this.distanceCallback
+      );
+    },
+    distanceCallback(response, status) {
+      if (status == 'OK') {
+        var origins = response.originAddresses;
+        var destinations = response.destinationAddresses;
+
+        for (var i = 0; i < origins.length; i++) {
+          var results = response.rows[i].elements;
+          for (var j = 0; j < results.length; j++) {
+            var element = results[j];
+            var distance = element.distance.text;
+            var duration = element.duration.text;
+            var from = origins[i];
+            var to = destinations[j];
+            console.log('Distance:', distance, 'Duration:', duration, 'From:', from, 'To:', to);
+          }
+        }
+      }
+    },
+    async logCurrentCarparks() {
+      this.candidates = [];
+      this.pins.forEach((pin) => {
+        if (this.map.getBounds().contains(pin.coords)) {
+          this.candidates.push(pin);
+        }
+      });
+      this.candidates = [...new Map(this.candidates.map((item) => [item['ppCode'], item])).values()];
+      console.log(this.candidates);
+    },
     async loadPins() {
       try {
         this.pins = await CarparkPinService.getPins();
@@ -75,6 +139,15 @@ export default {
             lng: position.coords.longitude,
           };
           console.log('Location Info Retrieved');
+          if (this.myMarker != null) {
+            this.myMarker.setPosition(this.center);
+          } else {
+            this.myMarker = new this.google.maps.Marker({
+              position: this.center,
+              title: 'You',
+              map: this.map,
+            });
+          }
           this.map.setCenter(this.center);
           this.map.setZoom(17);
         },
