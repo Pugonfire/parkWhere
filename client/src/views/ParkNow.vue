@@ -49,15 +49,15 @@ export default {
       candidates: [],
       myMarker: null,
       locSvcMng: null,
-      location: null,
+      infoWindows: [],
     };
   },
   async mounted() {
-    await this.loadPins();
+    this.locSvcMng = new LocationServiceManager();
     await this.loadMapAPI();
+    await this.loadPins();
     this.initMap();
     this.initMarkers();
-    this.locSvcMng = new LocationServiceManager();
 
     // Testing Code for Distance
     new this.google.maps.Marker({ position: this.center, title: 'Origin', map: this.map });
@@ -104,8 +104,42 @@ export default {
     },
     initMarkers() {
       this.pins.forEach((pin) => {
-        new this.google.maps.Marker({ position: pin.coords, title: pin.ppName, map: this.map });
+        let marker = new this.google.maps.Marker({ position: pin.coords, title: pin.ppName, map: this.map });
+        let contentString = this.pinInfo(pin);
+        let infoWindow = new this.google.maps.InfoWindow({
+          content: contentString,
+        });
+        this.infoWindows.push(infoWindow);
+        marker.addListener('click', () => {
+          this.infoWindows.forEach((i) => {
+            i.close();
+          });
+          infoWindow.open({
+            anchor: marker,
+            map: this.map,
+            shouldFocus: false,
+          });
+        });
       });
+    },
+    pinInfo(cp) {
+      let contentString = '<div class="info-window">';
+
+      contentString += '<h5>' + cp.ppName + '</h5>';
+      if (cp.lotsAvailable) {
+        contentString += '<span>' + cp.lotsAvailable + ' / ' + cp.parkCapacity + '</span>';
+      }
+      contentString += '<strong>Rates & Charges</strong>';
+
+      contentString += '<br>';
+
+      let dest = cp.coords.lat + ',' + cp.coords.lng;
+      contentString += '<a target="_blank" href="https://www.google.com/maps/search/?api=1&query=' + dest + '">';
+      contentString += 'Take me there';
+      contentString += '</a>';
+
+      contentString += '</div>';
+      return contentString;
     },
     getLocation() {
       console.log(this.locSvcMng.requestLocationInfo());
