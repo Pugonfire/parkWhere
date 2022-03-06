@@ -1,6 +1,6 @@
 <template>
   <div>Login</div>
-  <button v-google-signin-button="clientId" class="google-signin-button">Continue with Google</button>
+  <!-- <button v-google-signin-button="clientId" class="google-signin-button">Continue with Google</button> -->
 </template>
 
 <script>
