@@ -39,6 +39,8 @@ export default {
 }
 #container {
   padding-top: 80px;
+  position: fixed;
+  z-index: 20;
 }
 #bot-nav {
   width: 100%;
