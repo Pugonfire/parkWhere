@@ -5,7 +5,7 @@ class URAAPI {
   static #accessKey = '3df68727-2825-4d0a-aee7-768b467a0815';
   // Note: need to dynamically call token
   static #token =
-    'Ad0x-@5Z+NPGH6a8k69PmdF-7Q7zTge80Y-St0K7A67np5j00VvT2+@a2r@0W-8wnpDmeV8k-avHJnMfQpV0gw72Vy2-dC3XcUuE';
+    'dAb+Bgz6R-a0k533KN0dXUReDpkbfrDbZ64D6aG53Qs14zjw8Q-7jjTpa0aJeX9sYR3e+aHv0d2a18-jTjMNuj+dva675ymCRe36';
 
   static async getToken() {
     axios

@@ -40,10 +40,11 @@ router.get('/cpa/:carparkNo', async (req, res) => {
 // To update Carpark Details
 async function updateCarparkDetails() {
   // To generate the daily token
-  await URAAPI.getToken();
+  // await URAAPI.getToken();
   let res = await URAAPI.getDetails();
   const carpark_details = await connectDB('carpark_details');
 
+  console.log(res.data.Status);
   if (res.data.Status != 'Success') {
     const delay = (ms) => new Promise((res) => setTimeout(res, ms));
     await delay(300000);
@@ -89,7 +90,7 @@ function massageDetails(data) {
       satdayMin: item.satdayMin,
       satdayRate: item.satdayRate,
       sunPHMin: item.sunPHMin,
-      sunPHRate: item.sunPHMin,
+      sunPHRate: item.sunPHRate,
     };
     acc[item.ppCode].rates.push(pricing);
     return acc;
