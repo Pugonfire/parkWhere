@@ -1,11 +1,58 @@
 <template>
   <div>
-    <h4>Sample Carpark Data (2 entries)</h4>
-    <div v-for="index in 2" :key="index">
-      {{ pins[index] }}
+    <!-- <h3>Sample Detailed Carpark Page</h3>
+    <div>
+      <h4>{{ pins[3].ppName }}</h4>
+      <span>{{ pins[3].ppCode }}</span>
+      <h4>Available Lots</h4>
+      <span v-if="pins[3].lotsAvailable">{{ pins[3].lotsAvailable }} / {{ pins[3].parkCapacity }}</span>
+      <h4>Location</h4>
+      <iframe
+        width="100%"
+        height="450"
+        style="border: 0"
+        loading="lazy"
+        allowfullscreen
+        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB3SVABkQgxN2zslrCpg0lrdhc7v0nOt8o
+    &q=Singapore"
+      >
+      </iframe>
+      <h4>Rates & Charges</h4>
+      <h5>Monday - Friday</h5>
+      <div v-for="rate in pins[3].rates" :key="rate.index">
+        <p>
+          {{ rate.startTime }} - {{ rate.endTime }}:
+          <span
+            ><strong>{{ rate.weekdayRate }}</strong> per {{ rate.weekdayMin }}</span
+          >
+        </p>
+      </div>
+      <h5>Saturday</h5>
+      <div v-for="rate in pins[3].rates" :key="rate.index">
+        <p>
+          {{ rate.startTime }} - {{ rate.endTime }}:
+          <span
+            ><strong>{{ rate.satdayRate }}</strong> per {{ rate.satdayMin }}</span
+          >
+        </p>
+      </div>
+      <h5>Sunday & PH</h5>
+      <div v-for="rate in pins[3].rates" :key="rate.index">
+        <p>
+          {{ rate.startTime }} - {{ rate.endTime }}:
+          <span
+            ><strong>{{ rate.sunPHRate }}</strong> per {{ rate.sunPHMin }}</span
+          >
+        </p>
+      </div>
+    </div> -->
+
+    <h4>Sample Carpark Data</h4>
+    <div>
+      {{ pins[3] }}
     </div>
 
-    <h4>Click to update the map to your locality. (Please wait for location to be retrieved)</h4>
+    <h4>Click to console log location. (Please wait for location to be retrieved)</h4>
     <button @click="getLocation">Get my Location</button>
 
     <h4>Drag the map around, click to console log carparks within the current map view.</h4>
