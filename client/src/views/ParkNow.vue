@@ -13,7 +13,7 @@
         style="border: 0"
         loading="lazy"
         allowfullscreen
-        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB3SVABkQgxN2zslrCpg0lrdhc7v0nOt8o
+        src="https://www.google.com/maps/embed/v1/place?key=APIKEY
     &q=Singapore"
       >
       </iframe>
