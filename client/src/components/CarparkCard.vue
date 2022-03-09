@@ -45,9 +45,7 @@ export default {
 <style scoped>
 i {
   cursor: pointer;
-  padding: 10px 12px 8px;
   display: inline-block;
-  margin: 0 0 15px;
   transition: 0.2s;
 }
 

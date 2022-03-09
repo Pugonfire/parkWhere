@@ -2,9 +2,10 @@
   <div>
     <h1>Search</h1>
     <div class="Searchbar">
-      <input type="text" name="userSearch" v-model="userSearch" placeholder="Enter name of carpark" />
+      <input type="text" name="userSearch" v-model="userSearch" placeholder="search carparks" />
       <button @click="search">Search</button>
     </div>
+    <p>Where would you like to park?</p>
     <hr />
     <div class="carpark-container">
       <div class="carpark" v-for="carpark in carparks.data" :item="carpark" :key="carpark._id">

@@ -46,7 +46,9 @@
         </p>
       </div>
     </div> -->
-
+    <ParkNowPopup v-if="parknow_clicked" :distance="search_distance" :found="found" :searching="searching" />
+    <button v-if="!parknow_clicked" @click="startParkNow">ParkNow</button>
+    <button v-else @click="cancelParkNow">Cancel</button>
     <h4>Sample Carpark Data</h4>
     <div>
       {{ pins[3] }}
@@ -71,11 +73,19 @@ import { Loader } from '@googlemaps/js-api-loader';
 import CarparkPinService from '../CarparkPinService';
 import LocationServiceManager from '../managers/LocationServiceManager';
 import ParkNowManager from '../managers/ParkNowManager';
+import ParkNowPopup from '../components/ParkNowPopup.vue';
 
 export default {
   name: 'ParkNow',
+  components: {
+    ParkNowPopup,
+  },
   data() {
     return {
+      search_distance: 500,
+      parknow_clicked: false,
+      found: false,
+      searching: true,
       google: null,
       map: null,
       mapOptions: {
@@ -110,6 +120,15 @@ export default {
     new this.google.maps.Marker({ position: this.center, title: 'Origin', map: this.map });
   },
   methods: {
+    startParkNow() {
+      this.parknow_clicked = true;
+      this.searching = true;
+      this.found = false;
+      this.search_distance = 500;
+    },
+    cancelParkNow() {
+      this.parknow_clicked = false;
+    },
     async orderCarparks() {
       this.candidates = [];
       this.pins.forEach((pin) => {
