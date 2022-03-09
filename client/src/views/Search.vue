@@ -7,7 +7,7 @@
     </div>
     <hr />
     <div class="carpark-container">
-      <div class="carpark" v-for="carpark in carparks.data" v-bind:item="carpark" v-bind:key="carpark._id">
+      <div class="carpark" v-for="carpark in carparks.data" :item="carpark" :key="carpark._id">
         <CarparkCard :carpark="carpark" />
       </div>
     </div>
@@ -16,6 +16,7 @@
 
 <script>
 import CarparkCard from '../components/CarparkCard.vue';
+import SearchService from '../SearchService.js';
 export default {
   data() {
     return {
@@ -26,7 +27,26 @@ export default {
   components: {
     CarparkCard,
   },
+  methods: {
+    async search() {
+      this.carparks = await SearchService.search({
+        ppName: this.userSearch,
+      });
+      console.log('Results returned');
+      console.log(this.carparks);
+    },
+  },
 };
 </script>
 
-<style></style>
+<style scoped>
+div.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+div.carpark-container {
+  max-width: 500px;
+  margin: 0 auto;
+}
+</style>

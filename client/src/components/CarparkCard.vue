@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="carpark">
     <p class="ppName">{{ carpark.ppName }}</p>
     <p class="body">
       <b>Carpark Code:</b> {{ carpark.ppCode }}
@@ -17,10 +17,41 @@
 
 <script>
 export default {
-  props: {
-    carpark: {},
-  },
+  props: ['carpark'],
 };
 </script>
 
-<style></style>
+<style scoped>
+p.error {
+  border: 1px solid #ff5b5f;
+  background-color: #ffc5c1;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+div.carpark {
+  position: relative;
+  border: 1px solid #abc2e4;
+  background-color: #a1bfec;
+  padding: 10px 10px 30px 10px;
+  margin-bottom: 15px;
+}
+
+p.ppName {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+p.ppName {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+p.body {
+  text-align: left;
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 0;
+}
+</style>
