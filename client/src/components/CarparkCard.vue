@@ -1,32 +1,78 @@
 <template>
   <div class="carpark">
-    <p class="ppName">{{ carpark.ppName }}</p>
-    <p class="body">
-      <b>Carpark Code:</b> {{ carpark.ppCode }}
+    <div class="card_header">
+      <div class="header_right">
+        <i @click="toggle_favourite" :class="{ fav: favourite, not_fav: !favourite }"></i>
+      </div>
+      <div class="header_left">
+        <p class="carpark_name">{{ carpark.ppName }} ()</p>
+      </div>
+    </div>
+    <p class="lots_available">{{ carpark.parkCapacity }} available lots</p>
+    <p class="carpark_details"></p>
+    Carpark Code: {{ carpark.ppCode }}
+    <br />
+    Carpark System: {{ carpark.parkingSystem }}
+    <br />
+    Vehicle Type: {{ carpark.vehCat }}
+    <br />
+    <div class="rates" v-for="rate in carpark.rates" :item="rate" :key="rate._id">
+      Opening Hours: {{ rate.startTime }} to {{ rate.endTime }}
       <br />
-      <b>Vehicle Type:</b> {{ carpark.vehCat }}
+      Weekday Rate: {{ rate.weekdayRate }} for {{ rate.weekdayMin }}
       <br />
-      <b>Weekday Rates:</b> {{ carpark.weekdayRate }} per {{ carpark.weekdayMin }} <br /><b>Saturday Rates:</b>
-      {{ carpark.satdayRate }} per {{ carpark.satdayMin }} <br /><b>Sunday/Public Holiday Rates:</b>
-      {{ carpark.sunPHRate }} per {{ carpark.sunPHMin }} <br /><b>Effective start to end of parking rate:</b>
-      {{ carpark.startTime }} to
-      {{ carpark.endTime }}
-    </p>
+      Weekend Rate: {{ rate.sunPHRate }} for {{ rate.sunPHMin }}
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   props: ['carpark'],
+  data() {
+    return {
+      favourite: false,
+    };
+  },
+  methods: {
+    toggle_favourite() {
+      this.favourite = !this.favourite;
+    },
+  },
 };
 </script>
 
 <style scoped>
-p.error {
-  border: 1px solid #ff5b5f;
-  background-color: #ffc5c1;
-  padding: 10px;
-  margin-bottom: 15px;
+i {
+  cursor: pointer;
+  padding: 10px 12px 8px;
+  display: inline-block;
+  margin: 0 0 15px;
+  transition: 0.2s;
+}
+
+i.not_fav {
+  color: white;
+}
+
+i.fav {
+  color: red;
+}
+
+i:before {
+  font-family: fontawesome;
+  content: '\f004';
+  font-style: normal;
+  font-size: 30px;
+}
+
+i:hover {
+  color: grey;
+}
+
+img.favourite {
+  max-width: 10%;
+  max-height: 10%;
 }
 
 div.carpark {
@@ -37,18 +83,24 @@ div.carpark {
   margin-bottom: 15px;
 }
 
-p.ppName {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 0;
+div.rates {
+  border: 1px solid black;
+  background-color: white;
 }
-p.ppName {
+
+p.carpark_name {
   font-size: 22px;
   font-weight: 700;
   margin-bottom: 0;
 }
 
-p.body {
+p.lots_available {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+p.carpark_details {
   text-align: left;
   font-size: 15px;
   font-weight: 500;
