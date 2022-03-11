@@ -1,6 +1,6 @@
 const mongodb = require('mongodb');
 
-class Mongo {
+class DatabaseAPI {
   static #clientID =
     'mongodb+srv://max:fizjic-jihwy4-Momqez@cluster0.zpk7p.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 
@@ -32,4 +32,4 @@ class Mongo {
   }
 }
 
-module.exports = Mongo;
+module.exports = DatabaseAPI;

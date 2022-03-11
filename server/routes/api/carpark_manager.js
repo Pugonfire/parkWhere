@@ -1,10 +1,10 @@
 const express = require('express');
-const database = require('../../database');
+const database = require('../../database_api');
 const nodeCron = require('node-cron');
 
 const router = express.Router();
 
-const URAAPI = require('./ura_api.js');
+const URAAPI = require('../../ura_api');
 
 // GET: All Carpark Details
 router.get('/cpd', async (req, res) => {
