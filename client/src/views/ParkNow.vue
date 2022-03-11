@@ -1,70 +1,11 @@
 <template>
   <div>
-    <!-- <h3>Sample Detailed Carpark Page</h3>
-    <div>
-      <h4>{{ pins[3].ppName }}</h4>
-      <span>{{ pins[3].ppCode }}</span>
-      <h4>Available Lots</h4>
-      <span v-if="pins[3].lotsAvailable">{{ pins[3].lotsAvailable }} / {{ pins[3].parkCapacity }}</span>
-      <h4>Location</h4>
-      <iframe
-        width="100%"
-        height="450"
-        style="border: 0"
-        loading="lazy"
-        allowfullscreen
-        src="https://www.google.com/maps/embed/v1/place?key=APIKEY
-    &q=Singapore"
-      >
-      </iframe>
-      <h4>Rates & Charges</h4>
-      <h5>Monday - Friday</h5>
-      <div v-for="rate in pins[3].rates" :key="rate.index">
-        <p>
-          {{ rate.startTime }} - {{ rate.endTime }}:
-          <span
-            ><strong>{{ rate.weekdayRate }}</strong> per {{ rate.weekdayMin }}</span
-          >
-        </p>
-      </div>
-      <h5>Saturday</h5>
-      <div v-for="rate in pins[3].rates" :key="rate.index">
-        <p>
-          {{ rate.startTime }} - {{ rate.endTime }}:
-          <span
-            ><strong>{{ rate.satdayRate }}</strong> per {{ rate.satdayMin }}</span
-          >
-        </p>
-      </div>
-      <h5>Sunday & PH</h5>
-      <div v-for="rate in pins[3].rates" :key="rate.index">
-        <p>
-          {{ rate.startTime }} - {{ rate.endTime }}:
-          <span
-            ><strong>{{ rate.sunPHRate }}</strong> per {{ rate.sunPHMin }}</span
-          >
-        </p>
-      </div>
-    </div> -->
-    <ParkNowPopup v-if="parknow_clicked" :distance="search_distance" :found="found" :searching="searching" />
-    <button v-if="!parknow_clicked" @click="startParkNow">ParkNow</button>
-    <button v-else @click="cancelParkNow">Cancel</button>
-    <h4>Sample Carpark Data</h4>
-    <div>
-      {{ pins[3] }}
-    </div>
-
-    <h4>Click to console log location. (Please wait for location to be retrieved)</h4>
-    <button @click="getLocation">Get my Location</button>
-
     <h4>Drag the map around, click to console log carparks within the current map view.</h4>
     <button @click="logCurrentCarparks">Console Log Current Carparks</button>
 
     <h4>Drag the map around, click to console log carparks with their distances. (requires API key)</h4>
     <button @click="orderCarparks">Order carparks</button>
-
-    <h4>Map</h4>
-    <div id="map" style="width: 100%; height: 600px"></div>
+    <div id="map" style="width: 100%; height: 80vh"></div>
   </div>
 </template>
 
@@ -73,21 +14,24 @@ import { Loader } from '@googlemaps/js-api-loader';
 import CarparkPinService from '../CarparkPinService';
 import LocationServiceManager from '../managers/LocationServiceManager';
 import ParkNowManager from '../managers/ParkNowManager';
-import ParkNowPopup from '../components/ParkNowPopup.vue';
 
 export default {
   name: 'ParkNow',
-  components: {
-    ParkNowPopup,
-  },
   data() {
     return {
-      search_distance: 500,
-      parknow_clicked: false,
-      found: false,
-      searching: true,
+      myLocation: {
+        lat: 1.33251,
+        lng: 103.95479,
+      },
+
+      candidates: [],
+
       google: null,
       map: null,
+      locSvcMng: null,
+      myMarker: null,
+      pins: [],
+      infoWindows: [],
       mapOptions: {
         center: {
           // Singapore Central Coords
@@ -97,27 +41,27 @@ export default {
           lng: 103.95479,
         },
         zoom: 16,
+        mapTypeControl: false,
+        streetViewControl: false,
+        zoomControl: false,
+        fullscreenControl: false,
       },
-      center: {
-        lat: 1.33251,
-        lng: 103.95479,
-      },
-      pins: [],
-      candidates: [],
-      myMarker: null,
-      locSvcMng: null,
-      infoWindows: [],
+      parkNowStartButton: null,
+      parkNowCancelButton: null,
     };
   },
   async mounted() {
     this.locSvcMng = new LocationServiceManager();
     await this.loadMapAPI();
-    await this.loadPins();
+    await this.loadCarparkPins();
     this.initMap();
     this.initMarkers();
+    this.parkNowStartButton = this.parkNowButton('fa-solid fa-car', '30px', 'ParkNow', '#3c81bb', this.parkNowClick);
+    this.parkNowCancelButton = this.parkNowButton('fa-solid fa-xmark', '30px', 'Cancel', '#ff0000', this.parkNowCancel);
+    this.loadParkNowButton(this.parkNowStartButton);
 
     // Testing Code for Distance
-    new this.google.maps.Marker({ position: this.center, title: 'Origin', map: this.map });
+    new this.google.maps.Marker({ position: this.myLocation, title: 'Origin', map: this.map });
   },
   methods: {
     startParkNow() {
@@ -136,34 +80,35 @@ export default {
           this.candidates.push(pin);
         }
       });
-      this.candidates = [...new Map(this.candidates.map((item) => [item['ppCode'], item])).values()];
 
-      await ParkNowManager.findCarpark(this.google, this.center, this.candidates);
+      await ParkNowManager.findCarpark(this.google, this.myLocation, this.candidates);
     },
     async logCurrentCarparks() {
       this.candidates = [];
       this.pins.forEach((pin) => {
-        if (this.map.getBounds().contains(pin.coords)) {
+        // this.candidates.push(pin);
+        let distance = this.google.maps.geometry.spherical.computeDistanceBetween(pin.coords, this.myLocation);
+        if (distance < 927) {
           this.candidates.push(pin);
+          console.log(distance);
         }
       });
-      this.candidates = [...new Map(this.candidates.map((item) => [item['ppCode'], item])).values()];
       console.log(this.candidates);
-    },
-    async loadPins() {
-      try {
-        this.pins = await CarparkPinService.getPins();
-      } catch (err) {
-        this.error = err.message;
-      }
     },
     async loadMapAPI() {
       const googleMapApi = new Loader({
         apiKey: '',
         version: 'weekly',
-        libraries: ['places'],
+        libraries: ['places', 'geometry'],
       });
       this.google = await googleMapApi.load();
+    },
+    async loadCarparkPins() {
+      try {
+        this.pins = await CarparkPinService.getPins();
+      } catch (err) {
+        this.error = err.message;
+      }
     },
     initMap() {
       this.map = new this.google.maps.Map(document.getElementById('map'), this.mapOptions);
@@ -207,32 +152,118 @@ export default {
       contentString += '</div>';
       return contentString;
     },
-    getLocation() {
-      console.log(this.locSvcMng.requestLocationInfo());
-      // console.log("Getting User's Location");
-      // navigator.geolocation.getCurrentPosition(
-      //   (position) => {
-      //     this.center = {
-      //       lat: position.coords.latitude,
-      //       lng: position.coords.longitude,
-      //     };
-      //     console.log('Location Info Retrieved');
-      //     if (this.myMarker != null) {
-      //       this.myMarker.setPosition(this.center);
-      //     } else {
-      //       this.myMarker = new this.google.maps.Marker({
-      //         position: this.center,
-      //         title: 'You',
-      //         map: this.map,
-      //       });
-      //     }
-      //     this.map.setCenter(this.center);
-      //     this.map.setZoom(17);
-      //   },
-      //   (error) => {
-      //     console.log(error.message);
-      //   }
-      // );
+    parkNowButton(iconClass, iconSize, textContent, buttonColor, clickFunction) {
+      const content = document.createElement('div');
+      content.style.backgroundColor = buttonColor;
+      content.style.borderRadius = '8px';
+      content.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+      content.style.cursor = 'pointer';
+      content.style.textAlign = 'center';
+      content.style.padding = '15px';
+      content.style.display = 'inline-block';
+      content.style.width = '60px';
+      content.style.marginBottom = '30px';
+
+      const icon = document.createElement('i');
+      icon.className = iconClass;
+      icon.style.fontSize = iconSize;
+      icon.style.color = '#fff';
+
+      const text = document.createElement('div');
+      text.style.color = '#fff';
+      text.style.fontSize = '14px';
+      text.style.fontWeight = '600';
+      text.style.marginTop = '5px';
+      text.innerHTML = textContent;
+
+      content.addEventListener('click', clickFunction);
+
+      content.appendChild(icon);
+      content.appendChild(text);
+
+      return content;
+    },
+    parkNowStatusWindow(state, radius = 0) {
+      const content = document.createElement('div');
+      content.style.backgroundColor = '#fff';
+      content.style.borderRadius = '8px';
+      content.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+      content.style.textAlign = 'center';
+      content.style.padding = '20px';
+      content.style.width = '50%';
+
+      const headerText = document.createElement('div');
+      headerText.style.color = '#000';
+      headerText.style.fontSize = '14px';
+      headerText.style.marginBottom = '15px';
+
+      const icon = document.createElement('i');
+      icon.style.fontSize = '45px';
+
+      const footerText = document.createElement('div');
+      // footerText.style.color = '#000';
+      footerText.style.fontSize = '14px';
+      footerText.style.marginTop = '15px';
+
+      switch (state) {
+        case 'Searching':
+          headerText.innerHTML = 'Searching for the best carpark within...';
+          icon.className = 'fas fa-spinner fa-spin';
+          icon.style.color = '#3c81bb';
+          footerText.innerHTML = radius + ' meters';
+          break;
+        case 'Found':
+          headerText.innerHTML = 'Carpark Found!';
+          icon.className = 'fa-solid fa-check';
+          icon.style.color = '#35fc03';
+          break;
+        case 'Not Found':
+          headerText.innerHTML = 'No carparks found!';
+          icon.className = 'fa-solid fa-xmark';
+          icon.style.color = '#ff0000';
+          footerText.innerHTML = 'Please try again.';
+          break;
+      }
+
+      content.appendChild(headerText);
+      content.appendChild(icon);
+      content.appendChild(footerText);
+
+      return content;
+    },
+    async parkNowClick() {
+      let radius1 = 100;
+      let radius2 = 200;
+
+      this.loadParkNowButton(this.parkNowCancelButton);
+      this.loadParkNowInfoWindow(this.parkNowStatusWindow('Searching', radius1));
+
+      let bestCP = await ParkNowManager.findCarpark(this.google, this.myLocation, this.pins, radius1);
+      if (!bestCP) {
+        console.log('Increasing Search Radius');
+        this.loadParkNowInfoWindow(this.parkNowStatusWindow('Searching', radius2));
+        bestCP = await ParkNowManager.findCarpark(this.google, this.myLocation, this.pins, radius2);
+      }
+      if (!bestCP) {
+        console.log('No available carparks found.');
+        this.loadParkNowInfoWindow(this.parkNowStatusWindow('Not Found', radius2));
+      } else {
+        console.log('Best Carpark:');
+        console.log(bestCP);
+        this.loadParkNowInfoWindow(this.parkNowStatusWindow('Found'));
+      }
+    },
+    parkNowCancel() {
+      this.loadParkNowButton(this.parkNowStartButton);
+      this.map.controls[this.google.maps.ControlPosition.CENTER].clear();
+    },
+    loadParkNowButton(button) {
+      this.map.controls[this.google.maps.ControlPosition.BOTTOM_CENTER].clear();
+      this.map.controls[this.google.maps.ControlPosition.BOTTOM_CENTER].push(button);
+    },
+    loadParkNowInfoWindow(window) {
+      this.map.controls[this.google.maps.ControlPosition.CENTER].clear();
+      this.map.controls[this.google.maps.ControlPosition.CENTER].push(window);
     },
   },
 };
