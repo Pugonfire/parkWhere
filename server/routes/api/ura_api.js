@@ -1,4 +1,3 @@
-const mongodb = require('mongodb');
 const axios = require('axios');
 
 class URAAPI {
