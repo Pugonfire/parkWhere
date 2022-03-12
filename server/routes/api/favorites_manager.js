@@ -3,20 +3,39 @@ const router = express.Router();
 
 const database = require('../../database_api');
 
-// Get all users
+// Get user details
 router.get('/', async (req, res) => {
   const user_fav = database.connectCollection('user');
-  console.log('Get all users');
-  res.send(await user_fav.find({}).sort({ createdAt: 1 }).toArray());
+  console.log('Get user', req.query['id']);
+  res.send(await user_fav.findOne({ id: req.query['id'] }));
+  // sends user object if user exists
+  // sends null if user does not exist
 });
 
-// Update User's search history
-async function updateUserFavorites(search) {
+// Create user
+router.post('/', async (req, res) => {
   const user_fav = database.connectCollection('user');
+  console.log(req.body.id, req.body.name);
   await user_fav.insertOne({
-    text: search,
-    createdAt: new Date(),
+    id: req.body.id,
+    name: req.body.name,
+    favorites: [],
+    searchHistory: [],
   });
-}
+  res.status(201).send(); // to show successful
+});
+
+// Append user favorites to the []
+router.post('/update', async (req, res) => {
+  const user_fav = database.connectCollection('user');
+  // console.log(req.body.id, req.body.name);
+  // await user_fav.insertOne({
+  //   id: req.body.id,
+  //   name: req.body.name,
+  //   favorites: [],
+  //   searchHistory: [],
+  // });
+  res.status(201).send(); // to show successful
+});
 
 module.exports = router;
