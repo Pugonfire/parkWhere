@@ -1,5 +1,14 @@
 <template>
   <router-view />
+  
+    <div class="topnav" >
+      <h1>ParkNow</h1>
+      <div id = "moreOptions">
+        <router-link :to="{ name: 'ParkNow' }">
+        <i class="fa-solid fa-bars" ></i>
+        </router-link>
+      </div>
+    </div>
   <div id="container">
     <div id="bot-nav">
       <!-- To change to required routes -->
@@ -70,5 +79,38 @@ export default {
 .bot-nav-text {
   display: block;
   margin: 0 auto;
+  color: aqua;
 }
+.topnav h1{
+  text-align: center;
+  color: #fff;
+  font-family: 'Comic Sans MS';
+  margin: 0;
+}
+.topnav {
+  background-color: rgb(24, 4, 82);
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 50px;
+}
+
+#moreOptions{
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  position: fixed;
+  top: 0;
+  width:100%;
+}
+
+.fa-solid.fa-bars{
+  color: #fff;
+  font-size: 40px;
+  margin-right: 15px;
+  padding: 5px;
+
+}
+
 </style>
