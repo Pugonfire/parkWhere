@@ -4,6 +4,7 @@ import Login from '@/views/Login.vue';
 import NotFound from '@/views/NotFound.vue';
 import ParkNow from '@/views/ParkNow.vue';
 import Search from '@/views/Search.vue';
+import Favourites from '@/views/Favourites.vue';
 
 const routes = [
   {
@@ -25,6 +26,11 @@ const routes = [
     path: '/search',
     name: 'Search',
     component: Search,
+  },
+  {
+    path: '/favourites',
+    name: 'Favourites',
+    component: Favourites,
   },
   {
     path: '/:catchAll(.*)',

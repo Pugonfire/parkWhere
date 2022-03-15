@@ -3,17 +3,17 @@
   <div id="container">
     <div id="bot-nav">
       <!-- To change to required routes -->
-      <router-link :to="{ name: 'Home' }">
+      <router-link :to="{ name: 'Favourites' }">
         <i class="fa-regular fa-heart"></i>
         <p class="bot-nav-text">Favourites</p></router-link
       >
       <!-- To change to required routes -->
-      <router-link :to="{ name: 'Login' }">
+      <router-link :to="{ name: 'ParkNow' }">
         <i class="fa-regular fa-map"></i>
         <p class="bot-nav-text">Map</p></router-link
       >
       <!-- To change to required routes -->
-      <router-link :to="{ name: 'ParkNow' }">
+      <router-link :to="{ name: 'Search' }">
         <i class="fa-solid fa-magnifying-glass"></i>
         <p class="bot-nav-text">Search</p></router-link
       >

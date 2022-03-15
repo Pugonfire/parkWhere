@@ -4,23 +4,35 @@
 
     <div>Is Initialized: {{ Vue3GoogleOauth.isInit }}</div>
     <div>Is Authorized: {{ Vue3GoogleOauth.isAuthorized }}</div>
-    <div v-if="user">Logged in user: {{ user }}</div>
+    <div v-if="global.user_name && global.loginStatus">Hello {{ global.user_name }}, welcome back!</div>
+    <div v-else-if="!global.user_name && global.loginStatus">
+      Welcome new user!<br />
+      <input type="text" name="username" v-model="this.name" placeholder="What is your name?" />
+      <button @click="createUserCollection()">Submit</button>
+    </div>
 
-    <button @click="handleSignIn" :disabled="!Vue3GoogleOauth.isInit || Vue3GoogleOauth.isAuthorized">Sign In</button>
-    <button @click="handleSignOut" :disabled="!Vue3GoogleOauth.isAuthorized">Sign Out</button>
+    <LoginButton v-if="!global.loginStatus" />
+    <br />
+    <button @click="handleSignOut" :disabled="!global.loginStatus">Sign Out</button>
   </div>
 </template>
 
 <script>
 import { inject } from 'vue';
+import LoginService from '../LoginService.js';
+import global from '../global';
+import LoginButton from '../components/GoogleLoginButton.vue';
 export default {
-  name: 'HelloWorld',
   props: {
     msg: String,
   },
+  components: {
+    LoginButton,
+  },
   data() {
     return {
-      user: '',
+      name: '',
+      global,
     };
   },
   methods: {
@@ -31,7 +43,10 @@ export default {
         if (!googleUser) {
           return null;
         }
-        this.user = googleUser.getBasicProfile().getEmail();
+        //this.user = googleUser.getBasicProfile().getEmail();
+        global.user_email = googleUser.getBasicProfile().getEmail();
+        LoginService.checkExist(global.user_email).then((response) => (global.user_name = response.data.name));
+        global.loginStatus = true;
       } catch (error) {
         console.log(error);
         return null;
@@ -41,10 +56,15 @@ export default {
       try {
         await this.$gAuth.signOut();
         // console.log(this.$gAuth.signOut);
-        this.user = '';
+        global.user_name = '';
+        global.loginStatus = false;
       } catch (error) {
         console.log(error);
       }
+    },
+    createUserCollection() {
+      global.user_name = this.name;
+      LoginService.createUser(global.user_email, global.user_name);
     },
   },
   setup() {
