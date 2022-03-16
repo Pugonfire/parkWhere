@@ -26,6 +26,8 @@ class DatabaseAPI {
     } catch (err) {
       if (!this.#database) {
         console.log('Database not connected yet');
+        console.log('Reattempting connection');
+        this.connectDB();
       }
       console.log(err);
     }
