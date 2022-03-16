@@ -1,7 +1,7 @@
 <template>
   <router-link :to="{ name: 'Login' }">login</router-link>
   <div v-if="global.loginStatus" class="loggedIn">
-    <h1 class="loggedIn">Favourites</h1>
+    <h1 class="loggedIn">{{ global.user_name }}'s Favourites</h1>
     <p class="loggedIn">search & add your favourite spots</p>
   </div>
   <div v-else id="notLoggedIn">
@@ -43,6 +43,6 @@ p.loggedIn {
   padding-left: 5%;
 }
 p {
-  color: dodgerblue;
+  color: #3c81bb;
 }
 </style>

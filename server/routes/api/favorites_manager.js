@@ -28,13 +28,17 @@ router.post('/', async (req, res) => {
 // Append user favorites to the []
 router.post('/update', async (req, res) => {
   const user_fav = database.connectCollection('user');
-  // console.log(req.body.id, req.body.name);
-  // await user_fav.insertOne({
-  //   id: req.body.id,
-  //   name: req.body.name,
-  //   favorites: [],
-  //   searchHistory: [],
-  // });
+  switch (req.body.field) {
+    case 'favorites':
+      await user_fav.updateOne({ id: req.body.id }, { $set: { favorites: req.body.content } });
+      break;
+    case 'searchHistory':
+      break;
+    case 'name':
+      break;
+    default:
+      console.log('invalid field');
+  }
   res.status(201).send(); // to show successful
 });
 

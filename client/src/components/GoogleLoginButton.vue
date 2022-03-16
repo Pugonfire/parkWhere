@@ -5,7 +5,7 @@
 <script>
 import { inject } from 'vue';
 import global from '../global';
-import LoginService from '../LoginService.js';
+import UserService from '../UserService.js';
 export default {
   data() {
     return {
@@ -22,7 +22,15 @@ export default {
         }
         //this.user = googleUser.getBasicProfile().getEmail();
         global.user_email = googleUser.getBasicProfile().getEmail();
-        LoginService.checkExist(global.user_email).then((response) => (global.user_name = response.data.name));
+        global.user_name = googleUser.getBasicProfile().getName();
+        UserService.checkExist(global.user_email).then((response) => {
+          if (response.data.id != global.user_email) UserService.createUser(global.user_email, global.user_name);
+          else {
+            global.user_fav = Object.values(response.data.favorites);
+            console.log(Object.values(response.data.favorites));
+            global.user_history = response.data.searchHistory;
+          }
+        });
         global.loginStatus = true;
       } catch (error) {
         console.log(error);
