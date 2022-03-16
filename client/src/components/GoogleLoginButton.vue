@@ -28,7 +28,8 @@ export default {
           else {
             global.user_fav = Object.values(response.data.favorites);
             console.log(Object.values(response.data.favorites));
-            global.user_history = response.data.searchHistory;
+            global.user_history = Object.values(response.data.searchHistory);
+            console.log(Object.values(response.data.searchHistory));
           }
         });
         global.loginStatus = true;
