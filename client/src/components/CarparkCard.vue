@@ -1,32 +1,37 @@
 <template>
-  <div class="carpark">
-    <div class="card_header">
-      <div class="header_right">
-        <i @click="toggle_favourite" :class="{ fav: favourite, not_fav: !favourite }"></i>
+  <div class="carpark_card_container">
+    <div class="header_favButton">
+      <FavButton class="favButton" :ppCode="carpark.ppCode" />
+    </div>
+    <div class="content_right">
+      <div v-if="carpark.lotsAvailable != null">
+        <div class="lot_numbers">{{ carpark.lotsAvailable }}/{{ carpark.parkCapacity }}</div>
+        <div class="lot_caption">available lots</div>
       </div>
-      <div class="header_left">
-        <p class="carpark_name">{{ carpark.ppName }} ()</p>
+      <div v-else>
+        <div class="lot_numbers">{{ carpark.parkCapacity }}</div>
+        <div class="lot_caption">total lots</div>
       </div>
     </div>
-    <p class="lots_available">{{ carpark.parkCapacity }} available lots</p>
-    <p class="carpark_details"></p>
-    Carpark Code: {{ carpark.ppCode }}
-    <br />
-    Carpark System: {{ carpark.parkingSystem }}
-    <br />
-    Vehicle Type: {{ carpark.vehCat }}
-    <br />
-    <div class="rates" v-for="rate in carpark.rates" :item="rate" :key="rate._id">
-      Opening Hours: {{ rate.startTime }} to {{ rate.endTime }}
-      <br />
-      Weekday Rate: {{ rate.weekdayRate }} for {{ rate.weekdayMin }}
-      <br />
-      Weekend Rate: {{ rate.sunPHRate }} for {{ rate.sunPHMin }}
+    <div class="content_left">
+      <p class="carparkTitle">
+        {{ carpark.ppName }} <br />
+        ({{ carpark.ppCode }})
+      </p>
+      <div class="rates" v-for="rate in carpark.rates" :item="rate" :key="rate._id">
+        Opening Hours: {{ rate.startTime }} to {{ rate.endTime }}
+        <br />
+        Weekday Rate: {{ rate.weekdayRate }} for {{ rate.weekdayMin }}
+        <br />
+        Weekend Rate: {{ rate.sunPHRate }} for {{ rate.sunPHMin }}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import FavButton from './FavButton.vue';
+
 export default {
   props: ['carpark'],
   data() {
@@ -39,69 +44,74 @@ export default {
       this.favourite = !this.favourite;
     },
   },
+  components: {
+    FavButton,
+  },
 };
 </script>
 
 <style scoped>
-i {
-  cursor: pointer;
-  display: inline-block;
-  transition: 0.2s;
-}
-
-i.not_fav {
-  color: white;
-}
-
-i.fav {
-  color: red;
-}
-
-i:before {
-  font-family: fontawesome;
-  content: '\f004';
-  font-style: normal;
-  font-size: 30px;
-}
-
-i:hover {
-  color: grey;
-}
-
-img.favourite {
-  max-width: 10%;
-  max-height: 10%;
-}
-
-div.carpark {
+.carpark_card_container {
   position: relative;
+  display: grid;
+  grid-template-columns: 65fr 35fr;
+  grid-template-rows: 40fr 60fr;
   border: 1px solid #abc2e4;
   background-color: #a1bfec;
   padding: 10px 10px 30px 10px;
   margin-bottom: 15px;
 }
 
-div.rates {
-  border: 1px solid black;
-  background-color: white;
+.header_favButton {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
 }
 
-p.carpark_name {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 0;
+.content_right {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
 }
 
-p.lots_available {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 0;
-}
-
-p.carpark_details {
+.content_left {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 3;
   text-align: left;
-  font-size: 15px;
-  font-weight: 500;
+  padding: 0px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
+}
+
+.carparkTitle {
+  text-align: left;
+  font-size: 22px;
+  font-weight: 700;
   margin-bottom: 0;
+}
+
+.rates {
+  border: 1px solid black;
+}
+
+.lot_numbers {
+  font-size: 30px;
+  font-weight: 900;
+  margin-bottom: 0;
+}
+
+.lot_caption {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.favButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 </style>
