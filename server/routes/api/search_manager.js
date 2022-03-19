@@ -22,6 +22,11 @@ router.get('/ush', async (req, res) => {
   res.send(await user_history.find({}).sort({ createdAt: 1 }).toArray());
 });
 
+router.post('/recentcarparks', async (req, res) => {
+  const carpark_details = database.connectCollection('carpark_details');
+  res.send(await carpark_details.find({ ppName: { $in: req.body.content.carparks } }).toArray());
+});
+
 // Update User's search history
 async function updateSearchHistory(search) {
   const user_history = database.connectCollection('user_history');

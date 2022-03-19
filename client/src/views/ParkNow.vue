@@ -136,11 +136,16 @@ export default {
     pinInfo(cp) {
       let contentString = '<div class="info-window">';
 
-      contentString += '<h5>' + cp.ppName + '</h5>';
-      if (cp.lotsAvailable) {
-        contentString += '<span>' + cp.lotsAvailable + ' / ' + cp.parkCapacity + '</span>';
+      contentString += '<p class="carparkTitle">' + cp.ppName + '</p>';
+      if (cp.lotsAvailable != null && cp.lotsAvailable > 0) {
+        contentString += '<div class="lot_numbers">' + cp.lotsAvailable + ' / ' + cp.parkCapacity + '</div>';
+        contentString += '<div class="lot_caption">available lots</div>';
+      } else if (cp.lotsAvailable != null && cp.lotsAvailable == 0) {
+        contentString += '<div class="lot_numbers">FULL</div>';
+      } else {
+        contentString += '<div class="lot_numbers">' + cp.parkCapacity + '</div>';
+        contentString += '<div class="lot_caption">total lots</div>';
       }
-      contentString += '<strong>Rates & Charges</strong>';
 
       contentString += '<br>';
 
@@ -268,3 +273,24 @@ export default {
   },
 };
 </script>
+
+<style>
+.carparkTitle {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.lot_numbers {
+  font-size: 30px;
+  font-weight: 900;
+  margin-bottom: 0;
+}
+
+.lot_caption {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+</style>

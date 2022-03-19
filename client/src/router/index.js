@@ -34,9 +34,10 @@ const routes = [
     component: Favourites,
   },
   {
-    path: '/carparkdetail',
-    name: 'detail',
+    path: '/carparkdetails',
+    name: 'Details',
     component: CarparkDetails,
+    props: true,
   },
   {
     path: '/:catchAll(.*)',

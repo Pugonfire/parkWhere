@@ -8,7 +8,7 @@
 import global from '../global';
 import UserService from '../UserService';
 export default {
-  props: ['ppCode'],
+  props: ['ppName'],
   data() {
     return {
       favorite: false,
@@ -16,7 +16,7 @@ export default {
   },
   mounted() {
     if (global.loginStatus) {
-      this.favorite = global.user_fav.includes(this.ppCode);
+      this.favorite = global.user_fav.includes(this.ppName);
       if (this.favorite) this.activeColor = 'red';
     } else {
       this.favorite = false;
@@ -28,11 +28,11 @@ export default {
         console.log(global.user_fav);
         // if it is currently a favorite
         if (this.favorite) {
-          // remove ppCode from the global fav list
-          global.user_fav = global.user_fav.filter((fav) => fav != this.ppCode);
+          // remove ppName from the global fav list
+          global.user_fav = global.user_fav.filter((fav) => fav != this.ppName);
         } else {
-          // add ppCode to global fav list
-          global.user_fav.push(this.ppCode);
+          // add ppName to global fav list
+          global.user_fav.push(this.ppName);
         }
         // change color and whether this carpark if fav
         this.favorite = !this.favorite;

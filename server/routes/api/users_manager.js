@@ -33,6 +33,7 @@ router.post('/update', async (req, res) => {
       await user_fav.updateOne({ id: req.body.id }, { $set: { favorites: req.body.content } });
       break;
     case 'searchHistory':
+      await user_fav.updateOne({ id: req.body.id }, { $set: { searchHistory: req.body.content } });
       break;
     case 'name':
       break;

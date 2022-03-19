@@ -40,10 +40,11 @@ export default {
       Available: true,
     };
   },
+  props: ['ppName'],
   async created() {
     let carpark = null;
     carpark = await SearchService.search({
-      ppName: 'Ang Mo Kio',
+      ppName: this.ppName,
     });
     console.log(carpark.data[0]);
     this.cp = carpark.data[0];
