@@ -1,9 +1,9 @@
 <template>
-  <div @click="click_card" class="carpark_card_container">
+  <div class="carpark_card_container">
     <div class="header_favButton">
-      <FavButton class="favButton" :ppCode="carpark.ppCode" />
+      <FavButton class="favButton" :ppName="carpark.ppName" />
     </div>
-    <div class="content_right">
+    <div @click="click_card" class="content_right">
       <div v-if="carpark.lotsAvailable != null && carpark.lotsAvailable > 0">
         <div class="lot_numbers">{{ carpark.lotsAvailable }}/{{ carpark.parkCapacity }}</div>
         <div class="lot_caption">available lots</div>
@@ -16,7 +16,7 @@
         <div class="lot_caption">total lots</div>
       </div>
     </div>
-    <div class="content_left">
+    <div @click="click_card" class="content_left">
       <p class="carparkTitle">
         {{ carpark.ppName }} <br />
         ({{ carpark.ppCode }})
@@ -35,6 +35,7 @@
 <script>
 import FavButton from './FavButton.vue';
 import global from '../global';
+import UserService from '../UserService';
 
 export default {
   props: ['carpark'],
@@ -53,6 +54,7 @@ export default {
         if (global.user_history.length > 10) global.user_history.shift();
       }
       console.log(global.user_history);
+      UserService.updateUser(global.user_email, 'searchHistory', global.user_history);
       this.$router.push({
         name: 'Details',
         params: {

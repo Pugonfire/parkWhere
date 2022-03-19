@@ -16,14 +16,14 @@ database.connectDB();
 const posts = require('./routes/api/posts');
 const carparks = require('./routes/api/carpark_manager');
 const search = require('./routes/api/search_manager');
-const favorites = require('./routes/api/favorites_manager');
+const users = require('./routes/api/users_manager');
 
 const { sendFile } = require('express/lib/response');
 
 app.use('/api/posts', posts);
 app.use('/api/carpark_manager', carparks);
 app.use('/api/search_manager', search);
-app.use('/api/favorites_manager', favorites);
+app.use('/api/users_manager', users);
 
 // Handle production
 if (process.env.NODE_ENV === 'production') {

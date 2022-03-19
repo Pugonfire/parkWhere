@@ -30,6 +30,7 @@ export default {
             console.log(Object.values(response.data.favorites));
             global.user_history = Object.values(response.data.searchHistory);
             console.log(Object.values(response.data.searchHistory));
+            this.$emit('login-event');
           }
         });
         global.loginStatus = true;
