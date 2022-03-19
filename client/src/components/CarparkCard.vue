@@ -1,12 +1,15 @@
 <template>
-  <div class="carpark_card_container">
+  <div @click="click_card" class="carpark_card_container">
     <div class="header_favButton">
       <FavButton class="favButton" :ppCode="carpark.ppCode" />
     </div>
     <div class="content_right">
-      <div v-if="carpark.lotsAvailable != null">
+      <div v-if="carpark.lotsAvailable != null && carpark.lotsAvailable > 0">
         <div class="lot_numbers">{{ carpark.lotsAvailable }}/{{ carpark.parkCapacity }}</div>
         <div class="lot_caption">available lots</div>
+      </div>
+      <div v-else-if="carpark.lotsAvailable != null && carpark.lotsAvailable == 0">
+        <div class="lot_numbers">FULL</div>
       </div>
       <div v-else>
         <div class="lot_numbers">{{ carpark.parkCapacity }}</div>
@@ -31,6 +34,7 @@
 
 <script>
 import FavButton from './FavButton.vue';
+import global from '../global';
 
 export default {
   props: ['carpark'],
@@ -43,6 +47,19 @@ export default {
     toggle_favourite() {
       this.favourite = !this.favourite;
     },
+    click_card() {
+      if (!global.user_history.includes(this.carpark.ppName)) {
+        global.user_history.push(this.carpark.ppName);
+        if (global.user_history.length > 10) global.user_history.shift();
+      }
+      console.log(global.user_history);
+      this.$router.push({
+        name: 'Details',
+        params: {
+          ppName: this.carpark.ppName,
+        },
+      });
+    },
   },
   components: {
     FavButton,
@@ -51,15 +68,18 @@ export default {
 </script>
 
 <style scoped>
+@import '../assets/main.css';
+
 .carpark_card_container {
   position: relative;
   display: grid;
   grid-template-columns: 65fr 35fr;
   grid-template-rows: 40fr 60fr;
-  border: 1px solid #abc2e4;
-  background-color: #a1bfec;
+  background-color: white;
+  box-shadow: 0px 10px 15px;
+  border-radius: 8px;
   padding: 10px 10px 30px 10px;
-  margin-bottom: 15px;
+  margin: 0px 20px 30px 20px;
 }
 
 .header_favButton {
@@ -94,7 +114,7 @@ export default {
 }
 
 .rates {
-  border: 1px solid black;
+  border: 1px solid grey;
 }
 
 .lot_numbers {
@@ -111,7 +131,7 @@ export default {
 
 .favButton {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 20px;
+  right: 20px;
 }
 </style>

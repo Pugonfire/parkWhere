@@ -7,6 +7,7 @@
     </div>
     <p>Where would you like to park?</p>
     <hr />
+    <div v-if="emptyResults">Sorry, no results found.</div>
     <div class="carpark-container">
       <div class="carpark" v-for="carpark in carparks.data" :item="carpark" :key="carpark._id">
         <CarparkCard :carpark="carpark" />
@@ -23,6 +24,7 @@ export default {
     return {
       userSearch: '',
       carparks: [],
+      emptyResults: false,
     };
   },
   components: {
@@ -30,9 +32,13 @@ export default {
   },
   methods: {
     async search() {
+      this.emptyResults = false;
       this.carparks = await SearchService.search({
         ppName: this.userSearch,
       });
+      if (this.carparks.data.length === 0) {
+        this.emptyResults = true;
+      }
       console.log('Results returned');
       console.log(this.carparks);
     },
