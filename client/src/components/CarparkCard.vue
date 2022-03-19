@@ -26,7 +26,9 @@
         <br />
         Weekday Rate: {{ rate.weekdayRate }} for {{ rate.weekdayMin }}
         <br />
-        Weekend Rate: {{ rate.sunPHRate }} for {{ rate.sunPHMin }}
+        Sat Rate: {{ rate.satdayRate }} for {{ rate.satdayMin }}
+        <br />
+        Sun/PH Rate: {{ rate.sunPHRate }} for {{ rate.sunPHMin }}
       </div>
     </div>
   </div>
