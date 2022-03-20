@@ -21,35 +21,39 @@ class ParkNowManager {
         travelMode: 'DRIVING',
       })
       .then((response) => {
-        let results = response.rows[0].elements;
-        let bestCP = results.reduce(function (prev, current) {
-          return prev.distance.value < current.distance.value ? prev : current;
-        });
+        let bestCP = '';
+        let bestCPIdx = -1;
+        let minDuration = Infinity;
 
-        // Print results array
-        // var origins = response.originAddresses;
-        // var destinations = response.destinationAddresses;
-        // for (var i = 0; i < origins.length; i++) {
-        //   var resultList = response.rows[i].elements;
-        //   for (var j = 0; j < resultList.length; j++) {
-        //     var element = resultList[j];
-        //     var distance = element.distance.text;
-        //     var duration = element.duration.text;
-        //     var from = origins[i];
-        //     var to = destinations[j];
-        //     console.log('Distance:', distance, 'Duration:', duration, 'From:', from, 'To:', to);
-        //   }
-        // }
+        let origins = response.originAddresses;
+        let destinations = response.destinationAddresses;
+        for (let i = 0; i < origins.length; i++) {
+          let resultList = response.rows[i].elements;
+          for (let j = 0; j < resultList.length; j++) {
+            let element = resultList[j];
+            let distance = element.distance.text;
+            let duration = element.duration.text;
+            let from = origins[i];
+            let to = destinations[j];
+            console.log('Distance:', distance, 'Duration:', duration, 'From:', from, 'To:', to);
 
+            if (element.duration.value < minDuration) {
+              minDuration = element.duration.value;
+              bestCPIdx = i;
+            }
+          }
+        }
+        bestCP = candidates[bestCPIdx].ppName;
         return bestCP;
       });
+
     return bestCP;
   }
 
   static filterCarparks(google, origin, carparks, radius) {
     let candidates = [];
     carparks.forEach((cp) => {
-      if (cp.lotsAvailable) {
+      if (cp.lotsAvailable != null) {
         if (cp.lotsAvailable == 0) {
           return;
         }

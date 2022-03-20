@@ -1,9 +1,6 @@
 <template>
   <div>
-    <h4>Drag the map around, click to console log carparks within the current map view.</h4>
     <button @click="logCurrentCarparks">Console Log Current Carparks</button>
-
-    <h4>Drag the map around, click to console log carparks with their distances. (requires API key)</h4>
     <button @click="orderCarparks">Order carparks</button>
     <div id="map" style="width: 100%; height: 80vh"></div>
   </div>
@@ -64,15 +61,6 @@ export default {
     new this.google.maps.Marker({ position: this.myLocation, title: 'Origin', map: this.map });
   },
   methods: {
-    startParkNow() {
-      this.parknow_clicked = true;
-      this.searching = true;
-      this.found = false;
-      this.search_distance = 500;
-    },
-    cancelParkNow() {
-      this.parknow_clicked = false;
-    },
     async orderCarparks() {
       this.candidates = [];
       this.pins.forEach((pin) => {
@@ -86,9 +74,8 @@ export default {
     async logCurrentCarparks() {
       this.candidates = [];
       this.pins.forEach((pin) => {
-        // this.candidates.push(pin);
         let distance = this.google.maps.geometry.spherical.computeDistanceBetween(pin.coords, this.myLocation);
-        if (distance < 927) {
+        if (distance < 1000) {
           this.candidates.push(pin);
           console.log(distance);
         }
@@ -206,7 +193,6 @@ export default {
       icon.style.fontSize = '45px';
 
       const footerText = document.createElement('div');
-      // footerText.style.color = '#000';
       footerText.style.fontSize = '14px';
       footerText.style.marginTop = '15px';
 
@@ -238,7 +224,7 @@ export default {
     },
     async parkNowClick() {
       let radius1 = 100;
-      let radius2 = 200;
+      let radius2 = 1000;
 
       this.loadParkNowButton(this.parkNowCancelButton);
       this.loadParkNowInfoWindow(this.parkNowStatusWindow('Searching', radius1));
@@ -256,6 +242,12 @@ export default {
         console.log('Best Carpark:');
         console.log(bestCP);
         this.loadParkNowInfoWindow(this.parkNowStatusWindow('Found'));
+        this.$router.push({
+          name: 'Details',
+          params: {
+            ppName: bestCP,
+          },
+        });
       }
     },
     parkNowCancel() {
