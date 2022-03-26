@@ -19,6 +19,12 @@ npm run serve
 npm run format
 ```
 
+### Generate JSDoc
+
+```
+npm run jsdoc
+```
+
 ## How to contribute to code
 
 1. Navigate to directory parkWhere
