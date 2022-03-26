@@ -1,3 +1,8 @@
+/**
+ * Class to create a static singleton connection with MongoDB database
+ * @class DatabaseAPI
+ * @requires mongodb
+ */
 const mongodb = require('mongodb');
 
 class DatabaseAPI {
@@ -7,7 +12,9 @@ class DatabaseAPI {
   static #databaseName = 'Cluster0';
   static #database = null; // singleton database instance
 
-  // To connect to MongoDB
+  /**
+   * To connect to database
+   */
   static async connectDB() {
     // replace this
     const client = await mongodb.MongoClient.connect(this.#clientID, {
@@ -16,9 +23,11 @@ class DatabaseAPI {
     // Database name here
     this.#database = client.db(this.#databaseName);
     console.log('MongoDB database is connected');
-    // return client.db('Cluster0').collection(collection);
   }
 
+  /**
+   * To connect to collection in database
+   */
   static connectCollection(collectionName) {
     try {
       console.log(collectionName, 'is connected');

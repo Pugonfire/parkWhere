@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server/index.js",
     "backend": "nodemon server/index.js",
-    "format": "npx prettier --write ."
+    "format": "npx prettier --write .",
+    "jsdoc": "jsdoc -c jsdoc.json"
   },
   "author": "",
   "license": "MIT",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "eslint": "^8.10.0",
+    "jsdoc": "^3.6.10",
     "nodemon": "^2.0.15",
     "prettier": "2.5.1"
   }
