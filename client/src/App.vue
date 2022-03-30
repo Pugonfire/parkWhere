@@ -2,7 +2,7 @@
   <router-view />
 
   <div class="topnav">
-    <h1>ParkNow</h1>
+    <h1>ParkWhere</h1>
     <div id="moreOptions">
       <router-link :to="{ name: 'ParkNow' }">
         <i class="fa-solid fa-bars"></i>
@@ -43,12 +43,11 @@ body {
 }
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 75px;
 }
 #container {
   height: 75px;
@@ -64,21 +63,21 @@ body {
   background-color: white;
 }
 #bot-nav a {
-  font-weight: bold;
-  font-family: 'Comic Sans MS';
-  font-size: 5vw;
+  font-size: 16px;
   color: #808080;
   padding: 10px;
   width: 100vw;
   text-decoration: none;
   border-radius: 25px;
 }
-#bot-nav a.router-link-exact-active {
-  background: #ebeaea;
-  width: 100vw;
+
+#bot-nav i {
+  font-size: 20px;
 }
+
 #bot-nav a.router-link-exact-active i {
   color: #3c81bb;
+  font-size: 25px;
 }
 .bot-nav-text {
   display: block;
@@ -87,16 +86,16 @@ body {
 .topnav h1 {
   text-align: center;
   color: #fff;
-  font-family: 'Comic Sans MS';
   margin: 0;
+  margin-top: 16px;
 }
 .topnav {
-  background-color: rgb(24, 4, 82);
+  background-color: #3c81bb;
   overflow: hidden;
   position: fixed;
   top: 0;
   width: 100%;
-  height: 50px;
+  height: 70px;
 }
 
 #moreOptions {
@@ -110,8 +109,8 @@ body {
 
 .fa-solid.fa-bars {
   color: #fff;
-  font-size: 40px;
+  font-size: 35px;
   margin-right: 15px;
-  padding: 5px;
+  margin-top: 17px;
 }
 </style>

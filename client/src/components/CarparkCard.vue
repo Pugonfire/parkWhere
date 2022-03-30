@@ -80,7 +80,7 @@ export default {
   grid-template-columns: 65fr 35fr;
   grid-template-rows: 40fr 60fr;
   background-color: white;
-  box-shadow: 0px 10px 15px;
+  box-shadow: 0px 10px 15px #3c82bb54;
   border-radius: 8px;
   padding: 10px 10px 30px 10px;
   margin: 0px 20px 30px 20px;

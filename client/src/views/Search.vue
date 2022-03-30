@@ -1,12 +1,18 @@
 <template>
   <div>
-    <h1>Search</h1>
-    <div class="Searchbar">
-      <input type="text" name="userSearch" v-model="userSearch" placeholder="search carparks" />
-      <button @click="search">Search</button>
+    <p class="parkTitle" v-show="!searched">Where would you like to park?</p>
+    <div class="searchBarDiv">
+      <input
+        class="searchBar"
+        type="text"
+        name="userSearch"
+        v-model="userSearch"
+        placeholder="Search carparks..."
+        v-on:keyup.enter="search"
+      />
+      <!-- <button @click="search">Search</button> -->
     </div>
-    <p>Where would you like to park?</p>
-    <hr />
+    <br />
     <div v-if="emptyResults">Sorry, no results found.</div>
     <div v-if="!showRecent" class="carpark-container">
       <div class="carpark" v-for="carpark in carparks.data" :item="carpark" :key="carpark._id">
@@ -30,6 +36,7 @@ export default {
   data() {
     return {
       userSearch: '',
+      searched: false,
       carparks: [],
       recentCarparks: [],
       emptyResults: false,
@@ -41,6 +48,7 @@ export default {
   },
   methods: {
     async search() {
+      this.searched = true;
       this.emptyResults = false;
       this.showRecent = false;
       this.carparks = await SearchService.search({
@@ -68,6 +76,25 @@ export default {
 <style scoped>
 @import '../assets/main.css';
 
+.parkTitle {
+  padding-top: 15px;
+}
+
+.searchBar::placeholder {
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-weight: 300;
+}
+
+.searchBar {
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-weight: 400;
+  padding-left: 15px;
+  text-indent: 15px;
+  box-shadow: 0px 10px 15px #3c82bb54;
+  border: 0;
+  outline: none;
+}
+
 div.container {
   max-width: 800px;
   margin: 0 auto;
@@ -81,5 +108,14 @@ div.carpark-container {
 p.recent {
   text-align: left;
   margin-left: 20px;
+}
+
+input {
+  width: 80vw;
+  height: 3em;
+}
+
+hr {
+  width: 80vw;
 }
 </style>
