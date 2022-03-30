@@ -1,7 +1,5 @@
 <template>
-  <button @click="toggleFav">
-    <i class="fa-solid fa-heart" v-bind:style="[this.favorite ? { color: 'red' } : { color: 'white' }]"></i>
-  </button>
+  <i class="fas fa-heart" @click="toggleFav" v-bind:style="[this.favorite ? { color: 'red' } : { color: 'grey' }]"></i>
 </template>
 
 <script>
@@ -46,12 +44,7 @@ export default {
 </script>
 
 <style scoped>
-button {
-  background-color: #3c81bb;
-  border-radius: 6px;
-  border-color: #808080;
-}
 i {
-  outline-color: #3c81bb;
+  font-size: 30px;
 }
 </style>
