@@ -5,31 +5,24 @@
     </div>
     <div @click="click_card" class="content_right">
       <div v-if="carpark.lotsAvailable != null && carpark.lotsAvailable > 0">
-        <div class="lot_numbers">{{ carpark.lotsAvailable }}/{{ carpark.parkCapacity }}</div>
+        <div class="avail_carpark">{{ carpark.lotsAvailable }}/{{ carpark.parkCapacity }}</div>
         <div class="lot_caption">available lots</div>
       </div>
       <div v-else-if="carpark.lotsAvailable != null && carpark.lotsAvailable == 0">
-        <div class="lot_numbers">FULL</div>
+        <div class="full_carpark">FULL</div>
       </div>
       <div v-else>
-        <div class="lot_numbers">{{ carpark.parkCapacity }}</div>
+        <div class="no_details_carpark">{{ carpark.parkCapacity }}</div>
         <div class="lot_caption">total lots</div>
       </div>
     </div>
     <div @click="click_card" class="content_left">
-      <p class="carparkTitle">
-        {{ carpark.ppName }} <br />
-        ({{ carpark.ppCode }})
+      <p class="carparkName">
+        {{ carpark.ppName }}
       </p>
-      <div class="rates" v-for="rate in carpark.rates" :item="rate" :key="rate._id">
-        Opening Hours: {{ rate.startTime }} to {{ rate.endTime }}
-        <br />
-        Weekday Rate: {{ rate.weekdayRate }} for {{ rate.weekdayMin }}
-        <br />
-        Sat Rate: {{ rate.satdayRate }} for {{ rate.satdayMin }}
-        <br />
-        Sun/PH Rate: {{ rate.sunPHRate }} for {{ rate.sunPHMin }}
-      </div>
+      <p class="carparkCode">
+        {{ carpark.ppCode }}
+      </p>
     </div>
   </div>
 </template>
@@ -81,16 +74,16 @@ export default {
   position: relative;
   display: grid;
   grid-template-columns: 65fr 35fr;
-  grid-template-rows: 40fr 60fr;
+  grid-template-rows: 15fr 85fr;
   background-color: white;
   box-shadow: 0px 10px 15px #3c82bb54;
   border-radius: 8px;
-  padding: 10px 10px 30px 10px;
+  padding: 10px 10px 20px 10px;
   margin: 0px 20px 30px 20px;
 }
 
 .header_favButton {
-  grid-column-start: 2;
+  grid-column-start: 1;
   grid-column-end: 3;
   grid-row-start: 1;
   grid-row-end: 2;
@@ -101,33 +94,54 @@ export default {
   grid-column-end: 3;
   grid-row-start: 2;
   grid-row-end: 3;
+  text-align: center;
+  align-self: center;
 }
 
 .content_left {
   grid-column-start: 1;
   grid-column-end: 2;
-  grid-row-start: 1;
+  grid-row-start: 2;
   grid-row-end: 3;
-  text-align: left;
+  text-align: center;
   padding: 0px 0px 0px 0px;
   margin: 0px 0px 0px 0px;
 }
 
-.carparkTitle {
-  text-align: left;
+.carparkName {
+  text-align: center;
   font-size: 22px;
   font-weight: 700;
-  margin-bottom: 0;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
 }
 
-.rates {
-  border: 1px solid grey;
+.carparkCode {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 400;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
 }
 
-.lot_numbers {
+.no_details_carpark {
   font-size: 30px;
   font-weight: 900;
   margin-bottom: 0;
+}
+
+.avail_carpark {
+  font-size: 30px;
+  font-weight: 900;
+  margin-bottom: 0;
+  color: #3c81bb;
+}
+
+.full_carpark {
+  font-size: 30px;
+  font-weight: 900;
+  margin-bottom: 0;
+  color: red;
 }
 
 .lot_caption {
