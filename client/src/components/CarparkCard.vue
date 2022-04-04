@@ -51,18 +51,21 @@ export default {
       this.favourite = !this.favourite;
     },
     click_card() {
+      // update search history
       if (!global.user_history.includes(this.carpark.ppName)) {
         global.user_history.push(this.carpark.ppName);
         if (global.user_history.length > 10) global.user_history.shift();
       }
-      console.log(global.user_history);
       UserService.updateUser(global.user_email, 'searchHistory', global.user_history);
-      this.$router.push({
-        name: 'Details',
-        params: {
-          ppName: this.carpark.ppName,
-        },
-      });
+      // trigger carpark details popup
+      console.log(this.carpark.ppName);
+      this.$emit('cardClicked', this.carpark.ppName);
+      // this.$router.push({
+      //   name: 'Details',
+      //   params: {
+      //     ppName: this.carpark.ppName,
+      //   },
+      // });
     },
   },
   components: {

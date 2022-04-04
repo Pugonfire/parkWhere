@@ -1,4 +1,7 @@
 <template>
+  <div v-if="card_clicked">
+    <CarparkDetailsPopup :ppName="clicked_carpark_name" />
+  </div>
   <div>
     <p class="parkTitle" v-show="!searched">Where would you like to park?</p>
     <div class="searchBarDiv">
@@ -16,13 +19,13 @@
     <div v-if="emptyResults">Sorry, no results found.</div>
     <div v-if="!showRecent" class="carpark-container">
       <div class="carpark" v-for="carpark in carparks.data" :item="carpark" :key="carpark._id">
-        <CarparkCard :carpark="carpark" />
+        <CarparkCard :carpark="carpark" @cardClicked="triggerDetails" />
       </div>
     </div>
     <div v-else class="carpark-container">
       <p class="recent">Recent Searches</p>
       <div class="carpark" v-for="carpark in recentCarparks.data" :item="carpark" :key="carpark._id">
-        <CarparkCard :carpark="carpark" />
+        <CarparkCard :carpark="carpark" @cardClicked="triggerDetails" />
       </div>
     </div>
   </div>
@@ -30,6 +33,7 @@
 
 <script>
 import CarparkCard from '../components/CarparkCard.vue';
+import CarparkDetailsPopup from '../components/CarparkDetailsPopup.vue';
 import SearchService from '../SearchService.js';
 import global from '../global';
 export default {
@@ -41,10 +45,13 @@ export default {
       recentCarparks: [],
       emptyResults: false,
       showRecent: true,
+      card_clicked: false,
+      clicked_carpark_name: '',
     };
   },
   components: {
     CarparkCard,
+    CarparkDetailsPopup,
   },
   methods: {
     async search() {
@@ -65,6 +72,10 @@ export default {
         carparks: global.user_history,
       });
       console.log(this.recentCarparks);
+    },
+    triggerDetails(ppName) {
+      this.clicked_carpark_name = ppName;
+      this.card_clicked = true;
     },
   },
   created() {

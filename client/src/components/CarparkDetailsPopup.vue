@@ -1,30 +1,30 @@
 <template>
   <div class="popup">
-      <div class="popup-inner">
-        <div class="basicInformation">
-            <h1>{{ cp.ppName }}</h1>
-            <h2>{{ cp.ppCode }}</h2>
-            <div id="carparkavailability">
-                <h3>Availability</h3>
-                <i class="fa-solid fa-car"></i>
-                <div v-if="Available">
-                    <p>{{ cp.lotsAvailable }}/{{ cp.parkCapacity }}</p>
-                </div>
-                <div v-else>
-                    <p>Carkpark information not available</p>
-                </div>
-            </div>
-            <iframe width="350" height="450" style="border: 0" loading="lazy" allowfullscreen :src="getSource()"> </iframe>
-            <h2>Rates & Charges</h2>
-            <div class="rates" v-for="rate in cp.rates" :item="rate" :key="rate._id">
-                Opening Hours: {{ rate.startTime }} to {{ rate.endTime }}
-                <br />
-                Weekday Rate: {{ rate.weekdayRate }} for {{ rate.weekdayMin }}
-                <br />
-                Weekend Rate: {{ rate.sunPHRate }} for {{ rate.sunPHMin }}
-            </div>
-                <button @click="takemethere()">Take Me There</button>
+    <div class="popup-inner">
+      <div class="basicInformation">
+        <h1>{{ cp.ppName }}</h1>
+        <h2>{{ cp.ppCode }}</h2>
+        <div id="carparkavailability">
+          <h3>Availability</h3>
+          <i class="fa-solid fa-car"></i>
+          <div v-if="Available">
+            <p>{{ cp.lotsAvailable }}/{{ cp.parkCapacity }}</p>
+          </div>
+          <div v-else>
+            <p>Carkpark information not available</p>
+          </div>
         </div>
+        <iframe width="350" height="450" style="border: 0" loading="lazy" allowfullscreen :src="getSource()"> </iframe>
+        <h2>Rates & Charges</h2>
+        <div class="rates" v-for="rate in cp.rates" :item="rate" :key="rate._id">
+          Opening Hours: {{ rate.startTime }} to {{ rate.endTime }}
+          <br />
+          Weekday Rate: {{ rate.weekdayRate }} for {{ rate.weekdayMin }}
+          <br />
+          Weekend Rate: {{ rate.sunPHRate }} for {{ rate.sunPHMin }}
+        </div>
+        <button @click="takemethere()">Take Me There</button>
+      </div>
     </div>
   </div>
 </template>
@@ -34,7 +34,7 @@ import SearchService from '../SearchService.js';
 import SVY21 from '../SVY21_to_WGS84';
 
 export default {
- data() {
+  data() {
     return {
       cp: {},
       map: null,
@@ -81,21 +81,21 @@ export default {
 </script>
 
 <style>
-.popup{
-    position: fixed;
-    top:0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index:99;
-    background-color: rgba(0,0,0,0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.popup-inner{
-        background: #FFF;
-        padding: 32px;
+.popup-inner {
+  background: #fff;
+  padding: 32px;
 }
 .basicInformation {
   text-align: left;
@@ -124,6 +124,4 @@ export default {
   font-size: 16px;
   width: 100%;
 }
-
-
 </style>

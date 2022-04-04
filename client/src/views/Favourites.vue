@@ -1,10 +1,13 @@
 <template>
   <router-link :to="{ name: 'Login' }">login</router-link>
+  <div v-if="card_clicked">
+    <CarparkDetailsPopup :ppName="clicked_carpark_name" />
+  </div>
   <div v-if="global.loginStatus" class="loggedIn">
     <h1 class="loggedIn">{{ global.user_name }}'s Favourites</h1>
     <p class="loggedIn">search & add your favourite spots</p>
     <div v-for="carpark in favouriteCarparks.data" :item="carpark" :key="carpark._id">
-      <CarparkCard :carpark="carpark" />
+      <CarparkCard :carpark="carpark" @cardClicked="triggerDetails" />
     </div>
   </div>
   <div v-else id="notLoggedIn">
@@ -18,17 +21,21 @@
 import global from '../global';
 import LoginButton from '../components/GoogleLoginButton.vue';
 import CarparkCard from '../components/CarparkCard.vue';
+import CarparkDetailsPopup from '../components/CarparkDetailsPopup.vue';
 import SearchService from '../SearchService.js';
 export default {
   data() {
     return {
       global,
       favouriteCarparks: [],
+      card_clicked: false,
+      clicked_carpark_name: '',
     };
   },
   components: {
     LoginButton,
     CarparkCard,
+    CarparkDetailsPopup,
   },
   methods: {
     async get_favourite_carparks() {
@@ -36,6 +43,10 @@ export default {
         carparks: global.user_fav,
       });
       console.log(this.favouriteCarparks);
+    },
+    triggerDetails(ppName) {
+      this.clicked_carpark_name = ppName;
+      this.card_clicked = true;
     },
   },
   created() {
