@@ -4,7 +4,8 @@ import NotFound from '@/views/NotFound.vue';
 import ParkNow from '@/views/ParkNow.vue';
 import Search from '@/views/Search.vue';
 import Favourites from '@/views/Favourites.vue';
-import CarparkDetails from '@/views/CarparkDetails.vue';
+// import CarparkDetails from '@/views/CarparkDetails.vue';
+import CarparkDetailsPopup from '@/components/CarparkDetailsPopup.vue';
 
 const routes = [
   {
@@ -30,7 +31,7 @@ const routes = [
   {
     path: '/carparkdetails',
     name: 'Details',
-    component: CarparkDetails,
+    component: CarparkDetailsPopup,
     props: true,
   },
   {

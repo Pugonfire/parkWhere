@@ -63,7 +63,7 @@ export default {
       this.cp.geometries[0].coordinates.split(',')[1]
     );
     this.dest = this.cp.coord.lat + ',' + this.cp.coord.lng;
-    this.source = 'https://www.google.com/maps/embed/v1/view?key=YOUR_API_KEY&center=' + this.dest + '&zoom=18';
+    this.source = 'https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY' + '&zoom=17' + '&q=' + this.ppName;
     console.log(this.source);
     if (!('lotsAvailable' in this.cp)) {
       this.Available = false;
