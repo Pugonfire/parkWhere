@@ -4,7 +4,19 @@
       <FavButton class="favButton" :ppName="carpark.ppName" />
     </div>
     <div @click="click_card" class="content_right">
-      <div v-if="carpark.lotsAvailable != null && carpark.lotsAvailable > 0">
+      <div
+        v-if="
+          carpark.lotsAvailable != null && carpark.lotsAvailable > 0 && carpark.lotsAvailable > carpark.parkCapacity
+        "
+      >
+        <div class="avail_carpark">{{ carpark.parkCapacity }}/{{ carpark.parkCapacity }}</div>
+        <div class="lot_caption">available lots</div>
+      </div>
+      <div
+        v-else-if="
+          carpark.lotsAvailable != null && carpark.lotsAvailable > 0 && carpark.lotsAvailable <= carpark.parkCapacity
+        "
+      >
         <div class="avail_carpark">{{ carpark.lotsAvailable }}/{{ carpark.parkCapacity }}</div>
         <div class="lot_caption">available lots</div>
       </div>

@@ -4,7 +4,7 @@
   <div class="topnav">
     <h1>ParkWhere</h1>
     <div id="moreOptions">
-      <router-link :to="{ name: 'ParkNow' }">
+      <router-link :to="{ name: 'Login' }">
         <i class="fa-solid fa-bars"></i>
       </router-link>
     </div>

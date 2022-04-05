@@ -1,5 +1,4 @@
 <template>
-  <router-link :to="{ name: 'Login' }">login</router-link>
   <div v-if="card_clicked">
     <CarparkDetailsPopup :ppName="clicked_carpark_name" />
   </div>
