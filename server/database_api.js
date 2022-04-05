@@ -4,12 +4,12 @@
  * @requires mongodb
  */
 const mongodb = require('mongodb');
+const { clientID, databaseName } = require('../config');
 
 class DatabaseAPI {
-  static #clientID =
-    'mongodb+srv://max:fizjic-jihwy4-Momqez@cluster0.zpk7p.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+  static #clientID = clientID;
 
-  static #databaseName = 'Cluster0';
+  static #databaseName = databaseName;
   static #database = null; // singleton database instance
 
   /**

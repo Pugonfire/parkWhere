@@ -11,6 +11,7 @@ import { Loader } from '@googlemaps/js-api-loader';
 import CarparkPinService from '../CarparkPinService';
 import LocationServiceManager from '../managers/LocationServiceManager';
 import ParkNowManager from '../managers/ParkNowManager';
+const { googleMapsKey } = require('../../../config');
 
 export default {
   name: 'ParkNow',
@@ -84,7 +85,7 @@ export default {
     },
     async loadMapAPI() {
       const googleMapApi = new Loader({
-        apiKey: '',
+        apiKey: googleMapsKey,
         version: 'weekly',
         libraries: ['places', 'geometry'],
       });

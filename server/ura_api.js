@@ -6,10 +6,11 @@
  * @requires axios
  */
 const axios = require('axios');
+const { accessKey } = require('../config');
 
 class URAAPI {
-  static #accessKey = '3df68727-2825-4d0a-aee7-768b467a0815';
-  // Note: need to dynamically call token
+  static #accessKey = accessKey;
+  // Note: need to get new token daily. Token here is a dummy token
   static #token =
     'dAb+Bgz6R-a0k533KN0dXUReDpkbfrDbZ64D6aG53Qs14zjw8Q-7jjTpa0aJeX9sYR3e+aHv0d2a18-jTjMNuj+dva675ymCRe36';
 
