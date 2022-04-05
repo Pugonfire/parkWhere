@@ -1,8 +1,14 @@
 <template>
-  <div v-if="card_clicked">
+  <div class = "details" v-if="card_clicked">
+    <div class = "back-button" @click = closeDetails> 
+      <i class="fa-solid fa-arrow-left-long" ></i>
+      <span class = "return">
+          Return to search
+      </span>
+    </div>
     <CarparkDetailsPopup :ppName="clicked_carpark_name" />
   </div>
-  <div>
+  <div v-show="!card_clicked">
     <p class="parkTitle" v-show="!searched">Where would you like to park?</p>
     <div class="searchBarDiv">
       <input
@@ -77,6 +83,9 @@ export default {
       this.clicked_carpark_name = ppName;
       this.card_clicked = true;
     },
+    closeDetails(){
+      this.card_clicked = false;
+    },
   },
   created() {
     this.get_recent_carparks();
@@ -128,5 +137,17 @@ input {
 
 hr {
   width: 80vw;
+}
+.details{
+  text-align: left;
+}
+.fa-solid.fa-arrow-left-long{
+  padding-left: 13px;
+}
+.back-button{
+  display: inline-block;
+  padding: 10px 0;
+  color: #3c81bb;
+  font-weight: bold;
 }
 </style>

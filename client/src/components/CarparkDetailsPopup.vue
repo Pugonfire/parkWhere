@@ -8,10 +8,11 @@
           <h3>Availability</h3>
           <i class="fa-solid fa-car"></i>
           <div v-if="Available">
-            <p>{{ cp.lotsAvailable }}/{{ cp.parkCapacity }}</p>
+            <p v-if= "cp.lotsAvailable <= cp.parkCapacity">{{ cp.lotsAvailable }}/{{ cp.parkCapacity }}</p>
+            <p v-else> {{ cp.parkCapacity}}/{{ cp.parkCapacity }}</p>
           </div>
           <div v-else>
-            <p>Carkpark information not available</p>
+            <p>{{cp.parkCapacity}} lots available</p>
           </div>
         </div>
         <iframe width="350" height="450" style="border: 0" loading="lazy" allowfullscreen :src="getSource()"> </iframe>
@@ -23,9 +24,9 @@
           <br />
           Weekend Rate: {{ rate.sunPHRate }} for {{ rate.sunPHMin }}
         </div>
-        <button @click="takemethere()">Take Me There</button>
       </div>
     </div>
+    <button @click="takemethere()">Take Me There</button>
   </div>
 </template>
 
@@ -82,11 +83,9 @@ export default {
 
 <style>
 .popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  /* position: fixed; */
+  overflow: hidden;
+  /* overflow-y: scroll; */ 
   z-index: 99;
   background-color: rgba(0, 0, 0, 0.2);
   display: flex;
@@ -95,11 +94,16 @@ export default {
 }
 .popup-inner {
   background: #fff;
-  padding: 32px;
+  padding: 0 32px;
+  padding-bottom:60px;
 }
 .basicInformation {
   text-align: left;
   border-bottom: 1px;
+}
+
+.basicInformation h1{
+  margin : 0;
 }
 
 .basicInformation h2 {
@@ -113,15 +117,19 @@ export default {
 .fa-solid.fa-car {
   font-size: 50px;
 }
-.basicInformation button {
-  background-color: #1800a3;
-  border: none;
-  color: rgb(178, 252, 7);
+.popup button {
+  background-color: #3c81bb;
+  border:none;
+  border-radius: 10px;
+  color: rgb(255, 255, 255);
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
-  width: 100%;
+  width: 93%;
+  position: fixed;
+  bottom: 80px;
+  font-family: 'Montserrat';
 }
 </style>

@@ -5,7 +5,7 @@
     <h1>ParkWhere</h1>
     <div id="moreOptions">
       <router-link :to="{ name: 'Login' }">
-        <i class="fa-solid fa-bars"></i>
+        <i class="fa-regular fa-user"></i>
       </router-link>
     </div>
   </div>
@@ -58,9 +58,8 @@ body {
   bottom: 0;
   position: fixed;
   display: flex;
-  border: 6px;
-  border-top-style: groove;
   background-color: white;
+  box-shadow: 0 -3px 20px rgba(0, 0, 0, 0.137);
 }
 #bot-nav a {
   font-size: 16px;
@@ -107,9 +106,9 @@ body {
   width: 100%;
 }
 
-.fa-solid.fa-bars {
-  color: #fff;
-  font-size: 35px;
+.fa-regular.fa-user {
+  color: rgb(255, 255, 255);
+  font-size: 30px;
   margin-right: 15px;
   margin-top: 17px;
 }
