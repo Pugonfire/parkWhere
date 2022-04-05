@@ -84,7 +84,7 @@ export default {
     },
     async loadMapAPI() {
       const googleMapApi = new Loader({
-        apiKey: '',
+        apiKey: process.env.VUE_APP_GOOGLE_MAPS_API_KEY,
         version: 'weekly',
         libraries: ['places', 'geometry'],
       });
