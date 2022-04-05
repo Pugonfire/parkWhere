@@ -8,11 +8,11 @@
           <h3>Availability</h3>
           <i class="fa-solid fa-car"></i>
           <div v-if="Available">
-            <p v-if= "cp.lotsAvailable <= cp.parkCapacity">{{ cp.lotsAvailable }}/{{ cp.parkCapacity }}</p>
-            <p v-else> {{ cp.parkCapacity}}/{{ cp.parkCapacity }}</p>
+            <p v-if="cp.lotsAvailable <= cp.parkCapacity">{{ cp.lotsAvailable }}/{{ cp.parkCapacity }}</p>
+            <p v-else>{{ cp.parkCapacity }}/{{ cp.parkCapacity }}</p>
           </div>
           <div v-else>
-            <p>{{cp.parkCapacity}} lots available</p>
+            <p>{{ cp.parkCapacity }} lots available</p>
           </div>
         </div>
         <iframe width="350" height="450" style="border: 0" loading="lazy" allowfullscreen :src="getSource()"> </iframe>
@@ -85,7 +85,7 @@ export default {
 .popup {
   /* position: fixed; */
   overflow: hidden;
-  /* overflow-y: scroll; */ 
+  /* overflow-y: scroll; */
   z-index: 99;
   background-color: rgb(255, 255, 255);
   display: flex;
@@ -95,15 +95,15 @@ export default {
 .popup-inner {
   background: #fff;
   padding: 0 32px;
-  padding-bottom:60px;
+  padding-bottom: 60px;
 }
 .basicInformation {
   text-align: left;
   border-bottom: 1px;
 }
 
-.basicInformation h1{
-  margin : 0;
+.basicInformation h1 {
+  margin: 0;
 }
 
 .basicInformation h2 {
@@ -119,7 +119,7 @@ export default {
 }
 .popup button {
   background-color: #3c81bb;
-  border:none;
+  border: none;
   border-radius: 10px;
   color: rgb(255, 255, 255);
   padding: 15px 32px;

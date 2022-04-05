@@ -1,10 +1,8 @@
 <template>
-  <div class = "details" v-if="card_clicked">
-    <div class = "back-button" @click = closeDetails> 
-      <i class="fa-solid fa-arrow-left-long" ></i>
-      <span class = "return">
-          Return to Favourites
-      </span>
+  <div class="details" v-if="card_clicked">
+    <div class="back-button" @click="closeDetails">
+      <i class="fa-solid fa-arrow-left-long"></i>
+      <span class="return"> Return to Favourites </span>
     </div>
     <CarparkDetailsPopup :ppName="clicked_carpark_name" />
   </div>
@@ -55,9 +53,9 @@ export default {
       this.clicked_carpark_name = ppName;
       this.card_clicked = true;
     },
-    closeDetails(){
+    closeDetails() {
       this.card_clicked = false;
-    }
+    },
   },
   created() {
     this.get_favourite_carparks();
@@ -84,16 +82,16 @@ p.loggedIn {
 p {
   color: #3c81bb;
 }
-.back-button{
+.back-button {
   display: inline-block;
   padding: 10px 0;
   color: #3c81bb;
   font-weight: bold;
 }
-.details{
+.details {
   text-align: left;
 }
-.fa-solid.fa-arrow-left-long{
+.fa-solid.fa-arrow-left-long {
   padding-left: 13px;
 }
 </style>
