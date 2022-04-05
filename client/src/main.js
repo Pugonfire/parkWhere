@@ -4,10 +4,8 @@ import router from './router';
 import gAuthPlugin from 'vue3-google-oauth2';
 import './assets/main.css';
 
-const { googleAuthClientID } = require('../../config');
-
 let gAuth = {
-  clientId: googleAuthClientID,
+  clientId: process.env.VUE_APP_GOOGLE_AUTH_CLIENT_ID,
   scope: 'email',
   prompt: 'consent',
 };

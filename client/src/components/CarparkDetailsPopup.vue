@@ -33,7 +33,6 @@
 <script>
 import SearchService from '../SearchService.js';
 import SVY21 from '../SVY21_to_WGS84';
-const { generalMapsKey } = require('../../../config');
 
 export default {
   data() {
@@ -64,7 +63,12 @@ export default {
       this.cp.geometries[0].coordinates.split(',')[1]
     );
     this.dest = this.cp.coord.lat + ',' + this.cp.coord.lng;
-    this.source = 'https://www.google.com/maps/embed/v1/place?key=' + generalMapsKey + '&zoom=17' + '&q=' + this.ppName;
+    this.source =
+      'https://www.google.com/maps/embed/v1/place?key=' +
+      process.env.VUE_APP_GOOGLE_MAPS_API_KEY_GENERAL +
+      '&zoom=17' +
+      '&q=' +
+      this.ppName;
     console.log(this.source);
     if (!('lotsAvailable' in this.cp)) {
       this.Available = false;
