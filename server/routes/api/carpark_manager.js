@@ -65,12 +65,12 @@ router.get('/cpa/:carparkNo', async (req, res) => {
 /**
  * CronJob: Carpark Details (run once a day at 0000H)
  */
-// nodeCron.schedule('0 0 * * *', updateCarparkDetails, { timezone: 'Singapore' });
+nodeCron.schedule('0 0 * * *', updateCarparkDetails, { timezone: 'Singapore' });
 
 /**
- * CronJob: Carpark Availability (run once a day at 0000H)
+ * CronJob: Carpark Availability (run every 3 min)
  */
-// nodeCron.schedule('*/3 * * * *', updateCarparkAvailability, { timezone: 'Singapore' });
+nodeCron.schedule('*/3 * * * *', updateCarparkAvailability, { timezone: 'Singapore' });
 
 /**
  * To update Carpark Details
