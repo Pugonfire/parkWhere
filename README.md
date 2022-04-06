@@ -27,7 +27,7 @@ npm run jsdoc
 
 ### Setting up production
 
-1. Make sure all .env files are set up in the backend and frontend (client). See .env.example
+1. Create .env files for backend and frontend (client). See .env.example to see which fields need to be populated
 2. Create production build for frontend. It will be saved in the server/public directory
 
 ```
