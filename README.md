@@ -1,6 +1,6 @@
 # ParkWhere
 
-### Starts backend
+### Starts backend for development
 
 ```
 npm run backend
@@ -23,6 +23,23 @@ npm run format
 
 ```
 npm run jsdoc
+```
+
+### Setting up production
+
+1. Make sure all .env files are set up in the backend and frontend (client). See .env.example
+2. Create production build for frontend. It will be saved in the server/public directory
+
+```
+cd client
+npm run build
+cd ..
+```
+
+3. Start the app
+
+```
+npm start
 ```
 
 ## How to contribute to code
