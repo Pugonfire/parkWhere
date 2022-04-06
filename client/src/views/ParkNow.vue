@@ -1,7 +1,7 @@
 <template>
   <div>
-    <button @click="logCurrentCarparks">Console Log Current Carparks</button>
-    <button @click="orderCarparks">Order carparks</button>
+    <!-- <button @click="logCurrentCarparks">Console Log Current Carparks</button> -->
+    <!-- <button @click="orderCarparks">Order carparks</button> -->
     <div id="map" style="width: 100%; height: 80vh"></div>
   </div>
 </template>
