@@ -77,7 +77,7 @@ export default {
   },
   methods: {
     takemethere() {
-      window.location.href = 'https://www.google.com/maps/search/?api=1&query=' + this.dest;
+      window.open('https://www.google.com/maps/search/?api=1&query=' + this.dest);
     },
     getSource() {
       return this.source;
