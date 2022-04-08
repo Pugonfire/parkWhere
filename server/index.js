@@ -42,9 +42,9 @@ const port = process.env.PORT || 5000;
 https
   .createServer(
     {
-      key: fs.readFileSync('server.key'),
-      cert: fs.readFileSync('server.cert'),
+      key: fs.readFileSync('server/server.key'),
+      cert: fs.readFileSync('server/server.cert'),
     },
     app
   )
-  .listen(port, () => console.log('HTTPS Server started on port ${port}'));
+  .listen(port, () => console.log(`HTTPS Server started on port ${port}`));
