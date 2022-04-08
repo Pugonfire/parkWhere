@@ -229,6 +229,8 @@ export default {
       this.loadParkNowButton(this.parkNowCancelButton);
       this.loadParkNowInfoWindow(this.parkNowStatusWindow('Searching', radius1));
 
+      setTimeout(function () {}, 2500);
+
       let bestCP = await ParkNowManager.findCarpark(this.google, this.myLocation, this.pins, radius1);
       if (!bestCP) {
         console.log('Increasing Search Radius');
@@ -242,12 +244,14 @@ export default {
         console.log('Best Carpark:');
         console.log(bestCP);
         this.loadParkNowInfoWindow(this.parkNowStatusWindow('Found'));
+        setTimeout(function () {}, 1500);
         this.$router.push({
           name: 'Details',
           params: {
             ppName: bestCP,
           },
         });
+        this.resetParkNow();
       }
     },
     parkNowCancel() {
@@ -261,6 +265,10 @@ export default {
     loadParkNowInfoWindow(window) {
       this.map.controls[this.google.maps.ControlPosition.CENTER].clear();
       this.map.controls[this.google.maps.ControlPosition.CENTER].push(window);
+    },
+    resetParkNow() {
+      this.map.controls[this.google.maps.ControlPosition.BOTTOM_CENTER].clear();
+      this.map.controls[this.google.maps.ControlPosition.CENTER].clear();
     },
   },
 };
