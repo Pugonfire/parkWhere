@@ -222,6 +222,9 @@ export default {
 
       return content;
     },
+    timeDelay(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    },
     async parkNowClick() {
       let radius1 = 100;
       let radius2 = 1000;
@@ -229,7 +232,7 @@ export default {
       this.loadParkNowButton(this.parkNowCancelButton);
       this.loadParkNowInfoWindow(this.parkNowStatusWindow('Searching', radius1));
 
-      setTimeout(function () {}, 2500);
+      await timeDelay(2500);
 
       let bestCP = await ParkNowManager.findCarpark(this.google, this.myLocation, this.pins, radius1);
       if (!bestCP) {
@@ -244,7 +247,9 @@ export default {
         console.log('Best Carpark:');
         console.log(bestCP);
         this.loadParkNowInfoWindow(this.parkNowStatusWindow('Found'));
-        setTimeout(function () {}, 1500);
+
+        await timeDelay(2500);
+
         this.$router.push({
           name: 'Details',
           params: {
