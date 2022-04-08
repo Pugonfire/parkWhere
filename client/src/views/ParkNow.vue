@@ -232,7 +232,7 @@ export default {
       this.loadParkNowButton(this.parkNowCancelButton);
       this.loadParkNowInfoWindow(this.parkNowStatusWindow('Searching', radius1));
 
-      await timeDelay(2500);
+      await this.timeDelay(2500);
 
       let bestCP = await ParkNowManager.findCarpark(this.google, this.myLocation, this.pins, radius1);
       if (!bestCP) {
@@ -248,7 +248,7 @@ export default {
         console.log(bestCP);
         this.loadParkNowInfoWindow(this.parkNowStatusWindow('Found'));
 
-        await timeDelay(2500);
+        await this.timeDelay(2500);
 
         this.$router.push({
           name: 'Details',
