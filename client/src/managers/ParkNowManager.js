@@ -54,7 +54,7 @@ class ParkNowManager {
     let candidates = [];
     carparks.forEach((cp) => {
       if (cp.lotsAvailable != null) {
-        if (cp.lotsAvailable == 0) {
+        if (cp.lotsAvailable == 0 || cp.lotsAvailable < 0 || cp.lotsAvailable > cp.parkCapacity) {
           return;
         }
       }
