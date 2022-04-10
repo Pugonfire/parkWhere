@@ -37,14 +37,14 @@ if (process.env.NODE_ENV === 'production') {
 
 const port = process.env.PORT || 5000;
 
-// app.listen(port, () => console.log(`Server started on port ${port}`));
+app.listen(port, () => console.log(`Server started on port ${port}`));
 
-https
-  .createServer(
-    {
-      key: fs.readFileSync('server/server.key'),
-      cert: fs.readFileSync('server/server.cert'),
-    },
-    app
-  )
-  .listen(port, () => console.log(`HTTPS Server started on port ${port}`));
+// https
+//   .createServer(
+//     {
+//       key: fs.readFileSync('server/server.key'),
+//       cert: fs.readFileSync('server/server.cert'),
+//     },
+//     app
+//   )
+//   .listen(port, () => console.log(`HTTPS Server started on port ${port}`));

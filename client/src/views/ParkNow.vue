@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <button @click="logCurrentCarparks">Console Log Current Carparks</button> -->
-    <!-- <button @click="orderCarparks">Order carparks</button> -->
+    <button @click="shortlistCarparks">Shortlist Carparks</button>
     <div id="map" style="width: 100%; height: 80vh"></div>
   </div>
 </template>
@@ -17,8 +17,10 @@ export default {
   data() {
     return {
       myLocation: {
-        lat: 1.33251,
-        lng: 103.95479,
+        // lat: 1.33251,
+        // lng: 103.95479,
+        lat: 1.31815,
+        lng: 103.9507,
       },
 
       candidates: [],
@@ -34,8 +36,8 @@ export default {
           // Singapore Central Coords
           // lat: 1.3521,
           // lng: 103.8198,
-          lat: 1.33251,
-          lng: 103.95479,
+          lat: 1.31815,
+          lng: 103.9507,
         },
         zoom: 16,
         mapTypeControl: false,
@@ -61,15 +63,31 @@ export default {
     new this.google.maps.Marker({ position: this.myLocation, title: 'Origin', map: this.map });
   },
   methods: {
-    async orderCarparks() {
-      this.candidates = [];
+    async shortlistCarparks() {
+      let distToCP = 100;
+
+      let candidates = [];
       this.pins.forEach((pin) => {
         if (this.map.getBounds().contains(pin.coords)) {
-          this.candidates.push(pin);
+          candidates.push(pin);
         }
       });
 
-      await ParkNowManager.findCarpark(this.google, this.myLocation, this.candidates);
+      candidates.forEach((cp) => {
+        if (cp.lotsAvailable != null) {
+          if (cp.lotsAvailable == 0 || cp.lotsAvailable < 0 || cp.lotsAvailable > cp.parkCapacity) {
+            console.log(cp.ppName + ': not shortlisted (' + cp.lotsAvailable + ')');
+          }
+        }
+        let distance = this.google.maps.geometry.spherical.computeDistanceBetween(cp.coords, this.myLocation);
+        if (distance < distToCP) {
+          console.log(cp.ppName + ': shortlisted');
+        } else {
+          console.log(cp.ppName + ': not shortlisted (' + distance + ')');
+        }
+      });
+
+      // await ParkNowManager.findCarpark(this.google, this.myLocation, this.candidates);
     },
     async logCurrentCarparks() {
       this.candidates = [];
