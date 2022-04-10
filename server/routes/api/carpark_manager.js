@@ -77,7 +77,7 @@ nodeCron.schedule('*/3 * * * *', updateCarparkAvailability, { timezone: 'Singapo
  */
 async function updateCarparkDetails() {
   // To generate the daily token
-  // await URAAPI.getToken();
+  await URAAPI.getToken();
   let res = await URAAPI.getDetails();
   const carpark_details = database.connectCollection('carpark_details');
 

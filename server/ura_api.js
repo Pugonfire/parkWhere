@@ -11,8 +11,7 @@ const { accessKey } = require('../config');
 class URAAPI {
   static #accessKey = accessKey;
   // Note: need to get new token daily. Token here is a dummy token
-  static #token =
-    'dAb+Bgz6R-a0k533KN0dXUReDpkbfrDbZ64D6aG53Qs14zjw8Q-7jjTpa0aJeX9sYR3e+aHv0d2a18-jTjMNuj+dva675ymCRe36';
+  static #token;
 
   /**
    * Get URA token. Token to be renewed everyday
