@@ -7,7 +7,7 @@
         <div id="carparkavailability">
           <h3>Availability</h3>
           <i class="fa-solid fa-car"></i>
-          <div v-if="Available">
+          <div class v-if="Available">
             <p v-if="cp.lotsAvailable <= cp.parkCapacity">{{ cp.lotsAvailable }}/{{ cp.parkCapacity }}</p>
             <p v-else>{{ cp.parkCapacity }}/{{ cp.parkCapacity }}</p>
           </div>
@@ -18,11 +18,10 @@
         <iframe width="350" height="450" style="border: 0" loading="lazy" allowfullscreen :src="getSource()"> </iframe>
         <h2>Rates & Charges</h2>
         <div class="rates" v-for="rate in cp.rates" :item="rate" :key="rate._id">
-          Opening Hours: {{ rate.startTime }} to {{ rate.endTime }}
-          <br />
-          Weekday Rate: {{ rate.weekdayRate }} for {{ rate.weekdayMin }}
-          <br />
-          Weekend Rate: {{ rate.sunPHRate }} for {{ rate.sunPHMin }}
+          <h3>From {{ rate.startTime }} to {{ rate.endTime }}</h3>
+          Weekday Rate ------- <span class = "Rate">{{ rate.weekdayRate }}</span> for <span class = "Rate">{{ rate.weekdayMin }}</span>
+          <br>
+          Weekend Rate ------- <span class = "Rate">{{ rate.sunPHRate }}</span> for <span class = "Rate">{{ rate.sunPHMin }}</span>
         </div>
       </div>
     </div>
@@ -118,6 +117,22 @@ export default {
 #carparkavailability {
   text-align: center;
   font-size: 20px;
+}
+#carparkavailability h3{
+  margin-bottom:5px;
+}
+#carparkavailability p{
+  padding-top: 0px;
+  margin-top: 3px;
+}
+.rates h3{
+  padding-bottom: 2px;
+  margin-bottom:0px;
+  border-bottom: 0px;
+}
+.Rate{
+  font-weight: 450;
+  font-size:130%;
 }
 .fa-solid.fa-car {
   font-size: 50px;
