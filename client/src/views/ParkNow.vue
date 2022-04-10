@@ -226,8 +226,8 @@ export default {
       return new Promise((resolve) => setTimeout(resolve, ms));
     },
     async parkNowClick() {
-      let radius1 = 100;
-      let radius2 = 1000;
+      let radius1 = 300;
+      let radius2 = 600;
 
       this.loadParkNowButton(this.parkNowCancelButton);
       this.loadParkNowInfoWindow(this.parkNowStatusWindow('Searching', radius1));
