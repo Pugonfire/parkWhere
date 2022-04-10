@@ -12,9 +12,9 @@
     <div class = "Name" v-if="global.user_name && global.loginStatus">Hello {{ global.user_name }}, welcome back!</div>
     Providing you with
     <div class="AppDescription">
-      <br><i class="fa-regular fa-clock"> Real-time Updates</i><br/>
-      <br><i class="fa-regular fa-compass"> Over 100 parking locations</i><br/>
-      <br><i class="fa-regular fa-heart"></i> Save your favourite spots<br/>
+      <br><i class="fa-regular fa-clock"></i> <span class="RealTime"> Real-time Updates</span><br/>
+      <br><i class="fa-regular fa-compass"></i><span class="Parking"> Over 100 parking locations</span> <br/>
+      <br><i class="fa-regular fa-heart"></i><span> Save your favourite spots</span> <br/>
     </div>
     <br>
     <LoginButton v-if="!global.loginStatus" />
@@ -87,7 +87,8 @@ export default {
 }
 .AppDescription{
   text-align: left;
-  margin:0px 75px;
+  margin:0px 59px;
+  padding-left: 17px;
 }
 .Start{
   text-align: center;
