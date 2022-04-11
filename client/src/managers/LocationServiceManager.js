@@ -1,31 +1,15 @@
 class LocationServiceManager {
-  #location;
-
-  constructor() {
-    this.requestPermission();
-  }
-
-  requestPermission() {
+  static async requestPermission() {
+    // let location = null;
     console.log("Getting User's Location");
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.location = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-        console.log('Location Info Retrieved');
-      },
-      (error) => {
-        console.log(error.message);
-      }
-    );
-  }
-
-  requestLocationInfo() {
-    if (this.location == null) {
-      this.requestPermission();
-    }
-    return this.location;
+    const pos = await new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject);
+    });
+    console.log('Location Info Retrieved');
+    return {
+      lng: pos.coords.longitude,
+      lat: pos.coords.latitude,
+    };
   }
 }
 

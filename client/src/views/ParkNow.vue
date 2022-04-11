@@ -16,27 +16,17 @@ export default {
   name: 'ParkNow',
   data() {
     return {
-      myLocation: {
-        lat: 1.33251,
-        lng: 103.95479,
-      },
+      myLocation: null,
 
       candidates: [],
 
       google: null,
       map: null,
-      locSvcMng: null,
       myMarker: null,
       pins: [],
       infoWindows: [],
       mapOptions: {
-        center: {
-          // Singapore Central Coords
-          // lat: 1.3521,
-          // lng: 103.8198,
-          lat: 1.33251,
-          lng: 103.95479,
-        },
+        center: null,
         zoom: 16,
         mapTypeControl: false,
         streetViewControl: false,
@@ -48,7 +38,9 @@ export default {
     };
   },
   async mounted() {
-    this.locSvcMng = new LocationServiceManager();
+    this.myLocation = await LocationServiceManager.requestPermission();
+    console.log(this.myLocation);
+    this.mapOptions.center = this.myLocation;
     await this.loadMapAPI();
     await this.loadCarparkPins();
     this.initMap();
