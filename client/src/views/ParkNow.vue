@@ -137,9 +137,10 @@ export default {
       contentString += '<br>';
 
       let dest = cp.coords.lat + ',' + cp.coords.lng;
-      contentString += '<a target="_blank" href="https://www.google.com/maps/search/?api=1&query=' + dest + '">';
+      contentString +=
+        '<div class="takeme"> <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=' + dest + '">';
       contentString += 'Take me there';
-      contentString += '</a>';
+      contentString += '</a></div>';
 
       contentString += '</div>';
       return contentString;
@@ -238,6 +239,7 @@ export default {
       if (!bestCP) {
         console.log('Increasing Search Radius');
         this.loadParkNowInfoWindow(this.parkNowStatusWindow('Searching', radius2));
+        await this.timeDelay(2500);
         bestCP = await ParkNowManager.findCarpark(this.google, this.myLocation, this.pins, radius2);
       }
       if (!bestCP) {
@@ -297,5 +299,20 @@ export default {
   font-size: 18px;
   font-weight: 700;
   margin-bottom: 0;
+}
+a {
+  color: white;
+  text-decoration: none;
+}
+.takeme {
+  background-color: #3c81bb;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 32px;
+  color: inherit;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  font-family: 'Montserrat';
 }
 </style>
